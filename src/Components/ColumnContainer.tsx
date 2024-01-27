@@ -5,10 +5,11 @@ import { DrillCard } from './DrillCard'
 type Props = {
   column: Column
   drills: Drill[]
+  createDrill: (columnId: Id) => void
 }
 
 export const ColumnContainer = (props: Props) => {
-  const { column, drills } = props
+  const { column, drills, createDrill } = props
   return (
     <div className={styles['column-container']}>
       {/* column title */}
@@ -17,10 +18,16 @@ export const ColumnContainer = (props: Props) => {
       </div>
       {/* column drill container */}
       <div className={styles['column-task-container']}>
-        <DrillCard />
+        {drills.map(drill => {
+          return (
+            <div key={drill.id}>{drill.content}</div>
+          )
+        })}
       </div>
       {/* Column footer */}
-      <button className={styles['column-footer']}>ドリルを追加</button>
+      <button className={styles['column-footer']} onClick={() => createDrill(column.id)}>
+        ドリルを追加
+      </button>
     </div>
   )
 }

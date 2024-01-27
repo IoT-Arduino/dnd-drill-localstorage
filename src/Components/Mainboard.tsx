@@ -31,8 +31,16 @@ export const Mainboard = () => {
   }
 
   const deleteDrill = (id: Id) => {
-    const newDrill = drills.filter((drill) => drill.id !== id)
-    setDrills(newDrill)
+    const newDrills = drills.filter((drill) => drill.id !== id)
+    setDrills(newDrills)
+  }
+
+  const updateDrill = (id: Id, content: string) => {
+    const newDrills = drills.map(drill => {
+      if (drill.id !== id) return drill
+      return { ...drill, content}
+    })
+    setDrills(newDrills)
   }
 
   return (
@@ -47,6 +55,7 @@ export const Mainboard = () => {
                 drills={drills.filter((drill) => drill.columnId === col.id)}
                 createDrill={createDrill}
                 deleteDrill={deleteDrill}
+                updateDrill={updateDrill}
               />
             )
           })}

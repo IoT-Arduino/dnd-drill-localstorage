@@ -7,10 +7,11 @@ type Props = {
   drills: Drill[]
   createDrill: (columnId: Id) => void
   deleteDrill: (id: Id) => void
+  updateDrill: (id:Id, content:string) => void
 }
 
 export const ColumnContainer = (props: Props) => {
-  const { column, drills, createDrill, deleteDrill } = props
+  const { column, drills, createDrill, deleteDrill,updateDrill } = props
   return (
     <div className={styles['column-container']}>
       {/* column title */}
@@ -20,7 +21,7 @@ export const ColumnContainer = (props: Props) => {
       {/* column drill container */}
       <div className={styles['column-task-container']}>
         {drills.map((drill) => {
-          return <DrillCard key={drill.id} drill={drill} deleteDrill={deleteDrill} />
+          return <DrillCard key={drill.id} drill={drill} deleteDrill={deleteDrill} updateDrill={updateDrill} />
         })}
       </div>
       {/* Column footer */}

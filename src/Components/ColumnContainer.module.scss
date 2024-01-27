@@ -1,0 +1,47 @@
+@use "../baseStyle/baseStyle.scss" as *;
+
+.column-container {
+  background-color: $columnBackgroundColor;
+  width: 350px;
+  height: 500px;
+  max-height: 500px;
+  border-radius: 6px; 
+  display: flex;
+  flex-direction: column;
+}
+
+.column-title {
+  background-color: $columnBackgroundColor;
+  height: 60px;
+  cursor: grab;
+  border-radius: 6px;
+  border-bottom: 4px solid $columnBackgroundColor;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  font-weight: bold;
+}
+
+.column-task-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.column-footer {
+  display: flex;
+  gap: 2;
+  align-items: center;
+  border: 2px solid $columnBackgroundColor;
+  border-radius: 6px;
+  padding: 16px;
+  &:hover {
+    background-color: $mainBackgroundColor;
+    color: #444;
+  }
+}

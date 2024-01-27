@@ -1,7 +1,12 @@
 import './App.css'
+import { Mainboard } from './Components/Mainboard'
 
-function App() {
-  return <>MainPage</>
+const App = () => {
+  return (
+    <>
+      <Mainboard />
+    </>
+  )
 }
 
 export default App

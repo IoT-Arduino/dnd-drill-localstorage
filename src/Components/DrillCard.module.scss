@@ -1,1 +1,42 @@
-@use "../baseStyle/baseStyle.scss" as *;
+@use "./componentStyle/componentStyle.scss" as *;
+
+.drill-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  height:100px;
+  min-height: 100px;
+  background-color: $drillBackgroundColor;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  position: relative;
+  cursor: grab;
+  &:hover {
+  border: 1px solid $borderColor;
+  }
+
+    &-content {
+        margin-top: auto;
+        margin-bottom: auto;
+        height: 90%;
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        white-space: pre-wrap;
+    }
+
+    &-button {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 8px;
+        border-radius: 6px;
+        opacity: 0.6;
+        stroke: white;
+
+        &-hover{
+            opacity: 1;
+        }
+    }
+}

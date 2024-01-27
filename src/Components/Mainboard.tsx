@@ -27,7 +27,12 @@ export const Mainboard = () => {
       columnId,
       content: `Drill ${drills.length + 1}`
     }
-    setDrills([...drills,newDrill])
+    setDrills([...drills, newDrill])
+  }
+
+  const deleteDrill = (id: Id) => {
+    const newDrill = drills.filter((drill) => drill.id !== id)
+    setDrills(newDrill)
   }
 
   return (
@@ -41,6 +46,7 @@ export const Mainboard = () => {
                 column={col}
                 drills={drills.filter((drill) => drill.columnId === col.id)}
                 createDrill={createDrill}
+                deleteDrill={deleteDrill}
               />
             )
           })}

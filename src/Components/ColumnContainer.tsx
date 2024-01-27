@@ -6,10 +6,11 @@ type Props = {
   column: Column
   drills: Drill[]
   createDrill: (columnId: Id) => void
+  deleteDrill: (id: Id) => void
 }
 
 export const ColumnContainer = (props: Props) => {
-  const { column, drills, createDrill } = props
+  const { column, drills, createDrill, deleteDrill } = props
   return (
     <div className={styles['column-container']}>
       {/* column title */}
@@ -18,10 +19,8 @@ export const ColumnContainer = (props: Props) => {
       </div>
       {/* column drill container */}
       <div className={styles['column-task-container']}>
-        {drills.map(drill => {
-          return (
-            <div key={drill.id}>{drill.content}</div>
-          )
+        {drills.map((drill) => {
+          return <DrillCard key={drill.id} drill={drill} deleteDrill={deleteDrill} />
         })}
       </div>
       {/* Column footer */}

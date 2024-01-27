@@ -1,4 +1,4 @@
-@use "../baseStyle/baseStyle.scss" as *;
+@use "./componentStyle/componentStyle.scss" as *;
 
 .column-container {
   background-color: $columnBackgroundColor;

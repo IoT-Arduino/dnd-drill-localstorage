@@ -1,9 +1,21 @@
 import { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import { createPortal } from 'react-dom'
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverEvent,
+  DragOverlay,
+  DragStartEvent,
+  PointerSensor,
+  useSensor,
+  useSensors
+} from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
 
 import styles from './MainBoard.module.scss'
 import { Column, Id, Drill } from '../types'
 import { ColumnContainer } from './ColumnContainer'
+import { DrillCard } from './DrillCard'
 
 const PresetColumns: Column[] = [
   {
@@ -19,11 +31,19 @@ const PresetColumns: Column[] = [
 export const Mainboard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [drills, setDrills] = useState<Drill[]>([])
+  const [activeDrill, setActiveDrill] = useState<Drill | null>(null)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10
+      }
+    })
+  )
 
   const createDrill = (columnId: Id) => {
-    const uniqueId = uuidv4()
     const newDrill: Drill = {
-      id: uniqueId,
+      id: Math.floor(Math.random() * 10001),
       columnId,
       content: `Drill ${drills.length + 1}`
     }
@@ -36,31 +56,97 @@ export const Mainboard = () => {
   }
 
   const updateDrill = (id: Id, content: string) => {
-    const newDrills = drills.map(drill => {
+    const newDrills = drills.map((drill) => {
       if (drill.id !== id) return drill
-      return { ...drill, content}
+      return { ...drill, content }
     })
     setDrills(newDrills)
   }
 
+  const onDragStart = (event: DragStartEvent) => {
+    if (event.active.data.current?.type === 'DrillItem') {
+      setActiveDrill(event.active.data.current.drill)
+      return
+    }
+  }
+
+  const onDragEnd = (event: DragEndEvent) => {
+    setActiveDrill(null)
+
+    const { active, over } = event
+    if (!over) return
+
+    const activeId = active.id
+    const overId = over.id
+
+    if (activeId === overId) return
+  }
+
+  const onDragOver = (event: DragOverEvent) => {
+    const { active, over } = event
+    if (!over) return
+
+    const activeId = active.id
+    const overId = over.id
+
+    if (activeId === overId) return
+    const isActiveADrill = active.data.current?.type === 'DrillItem'
+    const isOverADrill = over.data.current?.type === 'DrillItem'
+
+    if (!isActiveADrill) return
+
+    // drillアイテムどうしでの移動
+    if (isActiveADrill && isOverADrill) {
+      setDrills((drills) => {
+        const activeIndex = drills.findIndex((d) => d.id === activeId)
+        const overIndex = drills.findIndex((d) => d.id === overId)
+
+        if (drills[activeIndex].columnId != drills[overIndex].columnId) {
+          drills[activeIndex].columnId = drills[overIndex].columnId
+          return arrayMove(drills, activeIndex, overIndex - 1)
+        }
+        return arrayMove(drills, activeIndex, overIndex)
+      })
+    }
+
+    const isOverAColumn = over.data.current?.type === 'Column'
+
+    // 別Columnにdrillアイテムを移動
+    if (isActiveADrill && isOverAColumn) {
+      setDrills((drills) => {
+        const activeIndex = drills.findIndex((d) => d.id === activeId)
+        drills[activeIndex].columnId = overId
+        return arrayMove(drills, activeIndex, activeIndex)
+      })
+    }
+  }
+
   return (
     <div className={styles['main-wrapper']}>
-      <div className={styles['context-wrapper']}>
-        <div className={styles['context-wrapper-sortable']}>
-          {columns.map((col) => {
-            return (
-              <ColumnContainer
-                key={col.id}
-                column={col}
-                drills={drills.filter((drill) => drill.columnId === col.id)}
-                createDrill={createDrill}
-                deleteDrill={deleteDrill}
-                updateDrill={updateDrill}
-              />
-            )
-          })}
+      <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}>
+        <div className={styles['context-wrapper']}>
+          <div className={styles['context-wrapper-sortable']}>
+            {columns.map((col) => {
+              return (
+                <ColumnContainer
+                  key={col.id}
+                  column={col}
+                  drills={drills.filter((drill) => drill.columnId === col.id)}
+                  createDrill={createDrill}
+                  deleteDrill={deleteDrill}
+                  updateDrill={updateDrill}
+                />
+              )
+            })}
+          </div>
         </div>
-      </div>
+        {createPortal(
+          <DragOverlay>
+            {activeDrill && <DrillCard drill={activeDrill} deleteDrill={deleteDrill} updateDrill={updateDrill} />}
+          </DragOverlay>,
+          document.body
+        )}
+      </DndContext>
     </div>
   )
 }

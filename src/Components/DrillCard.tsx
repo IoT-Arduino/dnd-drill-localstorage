@@ -1,33 +1,63 @@
 import { useState } from 'react'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+
 import { Drill, Id } from '../types/types'
 import styles from './DrillCard.module.scss'
 
 type Props = {
   drill: Drill
   deleteDrill: (id: Id) => void
-  updateDrill:(id:Id , content:string) =>  void
+  updateDrill: (id: Id, content: string) => void
+  columnId?: 'drill' | 'stock'
 }
 
-export const DrillCard = ({ drill, deleteDrill, updateDrill }: Props) => {
+export const DrillCard = ({ drill, deleteDrill, updateDrill, columnId }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState(false)
   const [editMode, setEditMode] = useState(false)
+
+  
+  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
+    id: drill.id,
+    data: {
+      type: 'DrillItem',
+      drill
+    },
+    disabled: editMode
+  })
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform)
+  }
 
   const toggleEditMode = () => {
     setEditMode((prev) => !prev)
     setMouseIsOver(false)
   }
 
-  if (editMode) {
+  if (isDragging) {
+    return <div ref={setNodeRef} style={style} className={styles['drill-is-dragging']} />
+  }
+
+  if (editMode && columnId === 'stock') {
     return (
-      <div key={drill.id} className={styles['drill-item-edit']}>
-        <textarea className={styles['task-text-area']}
+      <div
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+        className={styles['drill-item-edit']}
+      >
+        <textarea
+          className={styles['drill-text-area']}
           value={drill.content}
           autoFocus
           onBlur={toggleEditMode}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && e.shiftKey) toggleEditMode()
+            if (e.key === 'Enter' && e.shiftKey) toggleEditMode()
           }}
-          onChange={e => updateDrill(drill.id, e.target.value)}
+          onChange={(e) => updateDrill(drill.id, e.target.value)}
         ></textarea>
       </div>
     )
@@ -35,15 +65,18 @@ export const DrillCard = ({ drill, deleteDrill, updateDrill }: Props) => {
 
   return (
     <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       onClick={toggleEditMode}
-      key={drill.id}
       className={styles['drill-item']}
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
     >
-      <p className={styles['task-item-content']}>{drill.content}</p>
-      {mouseIsOver && (
-        <button className={styles['task-item-button']} onClick={() => deleteDrill(drill.id)}>
+      <p className={styles['drill-item-content']}>{drill.content}</p>
+      {mouseIsOver && columnId === 'stock' && (
+        <button className={styles['drill-item-button']} onClick={() => deleteDrill(drill.id)}>
           x
         </button>
       )}

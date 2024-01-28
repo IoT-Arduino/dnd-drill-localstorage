@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { Drill, Id } from '../types/types'
+import { Drill, Id } from './../types/types'
 import styles from './DrillCard.module.scss'
 
 type Props = {

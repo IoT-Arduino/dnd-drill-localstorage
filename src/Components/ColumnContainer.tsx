@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { Column, Id, Drill } from '../types'
+import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
 import { DrillCard } from './DrillCard'
 

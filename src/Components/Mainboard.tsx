@@ -13,7 +13,7 @@ import {
 import { arrayMove } from '@dnd-kit/sortable'
 
 import styles from './MainBoard.module.scss'
-import { Column, Id, Drill } from '../types'
+import { Column, Id, Drill } from './../types/types'
 import { ColumnContainer } from './ColumnContainer'
 import { DrillCard } from './DrillCard'
 

@@ -28,7 +28,7 @@ const PresetColumns: Column[] = [
   }
 ]
 
-export const Mainboard = () => {
+export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [drills, setDrills] = useState<Drill[]>([])
   const [activeDrill, setActiveDrill] = useState<Drill | null>(null)

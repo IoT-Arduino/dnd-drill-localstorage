@@ -1,10 +1,10 @@
 import './App.css'
-import { Mainboard } from './Components/Mainboard'
+import { MainBoard } from './Components/MainBoard'
 
 const App = () => {
   return (
     <>
-      <Mainboard />
+      <MainBoard />
     </>
   )
 }

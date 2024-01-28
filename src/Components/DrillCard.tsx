@@ -16,7 +16,6 @@ export const DrillCard = ({ drill, deleteDrill, updateDrill, columnId }: Props) 
   const [mouseIsOver, setMouseIsOver] = useState(false)
   const [editMode, setEditMode] = useState(false)
 
-  
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: drill.id,
     data: {
@@ -42,13 +41,7 @@ export const DrillCard = ({ drill, deleteDrill, updateDrill, columnId }: Props) 
 
   if (editMode && columnId === 'stock') {
     return (
-      <div
-        ref={setNodeRef}
-        style={style}
-        {...attributes}
-        {...listeners}
-        className={styles['drill-item-edit']}
-      >
+      <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={styles['drill-item-edit']}>
         <textarea
           className={styles['drill-text-area']}
           value={drill.content}

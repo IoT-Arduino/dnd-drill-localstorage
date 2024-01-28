@@ -1,11 +1,11 @@
-@use "./componentStyle/componentStyle.scss" as *;
+@use './componentStyle/componentStyle.scss' as *;
 
 .column-container {
   background-color: $columnBackgroundColor;
   width: 350px;
   height: 500px;
   max-height: 500px;
-  border-radius: 6px; 
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
 }

@@ -1,23 +1,22 @@
-@use "./componentStyle/componentStyle.scss" as *;
-
+@use './componentStyle/componentStyle.scss' as *;
 
 .drill-is-dragging {
   opacity: 0.3;
   background-color: #fff;
-  padding:4px;
+  padding: 4px;
   height: 100px;
   min-height: 100px;
   display: flex;
   align-items: center;
   flex-direction: row;
   text-align: left;
-  border-radius: 12px; 
-  border: 2px solid $borderColor; 
+  border-radius: 12px;
+  border: 2px solid $borderColor;
   cursor: grab;
   position: relative;
 }
 
-// edit 
+// edit
 .drill-item-edit {
   background-color: #777;
   padding: 4px;
@@ -27,16 +26,16 @@
   align-items: center;
   flex-direction: row;
   text-align: left;
-  border-radius: 12px; 
+  border-radius: 12px;
   cursor: grab;
   position: relative;
 
-  &:hover{
-    box-shadow: 0 0 0 2px $borderColor inset; 
+  &:hover {
+    box-shadow: 0 0 0 2px $borderColor inset;
   }
 }
 
-// 
+//
 .drill-text-area {
   padding-left: 12px;
   padding-right: 16px;
@@ -44,11 +43,11 @@
   width: 100%;
   resize: none;
   border: none;
-  border-radius: 6px; 
+  border-radius: 6px;
   background-color: transparent;
   color: white;
   outline: none;
-    &:focus {
+  &:focus {
     outline: none;
   }
 }
@@ -58,7 +57,7 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  height:100px;
+  height: 100px;
   min-height: 100px;
   background-color: $drillBackgroundColor;
   border-radius: 6px;
@@ -66,31 +65,31 @@
   position: relative;
   cursor: grab;
   &:hover {
-  border: 1px solid $borderColor;
+    border: 1px solid $borderColor;
   }
 
-    &-content {
-        margin-top: auto;
-        margin-bottom: auto;
-        height: 90%;
-        width: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-        white-space: pre-wrap;
-    }
+  &-content {
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 90%;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: pre-wrap;
+  }
 
-    &-button {
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        padding: 8px;
-        border-radius: 6px;
-        opacity: 0.6;
-        stroke: white;
+  &-button {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px;
+    border-radius: 6px;
+    opacity: 0.6;
+    stroke: white;
 
-        &-hover{
-            opacity: 1;
-        }
+    &-hover {
+      opacity: 1;
     }
+  }
 }

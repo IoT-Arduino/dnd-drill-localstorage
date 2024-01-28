@@ -4,6 +4,5 @@
   "singleQuote": true,
   "trailingComma": "none",
   "semi": false,
-  "parser": "typescript",
-  "html.format.wrapAttributes": "force"
+  "parser": "typescript"
 }

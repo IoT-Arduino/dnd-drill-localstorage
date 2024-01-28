@@ -12,10 +12,11 @@ type Props = {
   createDrill: (columnId: Id) => void
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: string) => void
+  submitDrill: () => void
 }
 
 export const ColumnContainer = (props: Props) => {
-  const { column, drills, createDrill, deleteDrill, updateDrill } = props
+  const { column, drills, createDrill, deleteDrill, updateDrill, submitDrill } = props
 
   const drillsIds = useMemo(() => {
     return drills.map((drill) => drill.id)
@@ -52,17 +53,34 @@ export const ColumnContainer = (props: Props) => {
             <DrillCard
               key={drill.id}
               drill={drill}
+              columnId={column.id}
               deleteDrill={deleteDrill}
               updateDrill={updateDrill}
-              columnId={column.id}
             />
           ))}
         </SortableContext>
       </div>
       {/* Column footer */}
-      <button className={styles['column-footer']} onClick={() => createDrill(column.id)}>
-        ドリルを追加
-      </button>
+      {column.id === 'stock' && (
+        <button
+          className={styles['column-footer']}
+          onClick={() => {
+            createDrill(column.id)
+          }}
+        >
+          ドリルを追加
+        </button>
+      )}
+      {column.id === 'drill' && (
+        <button
+          className={styles['column-footer']}
+          onClick={() => {
+            submitDrill()
+          }}
+        >
+          送信
+        </button>
+      )}
     </div>
   )
 }

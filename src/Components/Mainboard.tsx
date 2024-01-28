@@ -63,6 +63,22 @@ export const MainBoard = () => {
     setDrills(newDrills)
   }
 
+  const submitDrill = () => {
+    // チェック済みのドリル項目を送信する
+    const drillItems = drills.filter((drill) => drill.columnId === 'drill')
+    // drillItemsに✅属性を追加した、checkedItems を結合(stateでもつ）
+    console.log('drill submitted', drillItems)
+
+    // drillコラムの中のdrillアイテムをstockコラムに移動。
+    const newDrills = drills.map((drill) => {
+      if (drill.columnId === 'drill') {
+        drill.columnId = 'stock'
+      }
+      return drill
+    })
+    setDrills(newDrills)
+  }
+
   const onDragStart = (event: DragStartEvent) => {
     if (event.active.data.current?.type === 'DrillItem') {
       setActiveDrill(event.active.data.current.drill)
@@ -135,6 +151,7 @@ export const MainBoard = () => {
                   createDrill={createDrill}
                   deleteDrill={deleteDrill}
                   updateDrill={updateDrill}
+                  submitDrill={submitDrill}
                 />
               )
             })}

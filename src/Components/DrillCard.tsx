@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { RiDeleteBin6Fill } from 'react-icons/ri'
 
 import { Drill, Id } from './../types/types'
 import styles from './DrillCard.module.scss'
@@ -78,7 +79,7 @@ export const DrillCard = ({ drill, deleteDrill, updateDrill, updateDrillStatus, 
 
       {mouseIsOver && columnId === 'stock' && (
         <button className={styles['drill-item-button']} onClick={() => deleteDrill(drill.id)}>
-          x
+          <RiDeleteBin6Fill />
         </button>
       )}
     </div>

@@ -10,11 +10,11 @@ export default defineConfig({
     outDir: resolve(__dirname, 'dist'),
     // 存在しないときはフォルダを作成する
     emptyOutDir: true,
-    rollupOptions: {
-      // entry pointがあるindex.htmlのパス
-      input: {
-        '': resolve(__dirname, './index.html'),
-      },
-    },
+    // rollupOptions: {
+    //   // entry pointがあるindex.htmlのパス
+    //   input: {
+    //     '': resolve(__dirname, './index.html'),
+    //   },
+    // },
   },
 });

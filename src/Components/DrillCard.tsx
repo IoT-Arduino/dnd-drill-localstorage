@@ -9,10 +9,11 @@ type Props = {
   drill: Drill
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: string) => void
+  updateDrillStatus : (id:Id, status:boolean) => void
   columnId?: 'drill' | 'stock'
 }
 
-export const DrillCard = ({ drill, deleteDrill, updateDrill, columnId }: Props) => {
+export const DrillCard = ({ drill, deleteDrill, updateDrill, updateDrillStatus, columnId }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState(false)
   const [editMode, setEditMode] = useState(false)
 
@@ -67,7 +68,14 @@ export const DrillCard = ({ drill, deleteDrill, updateDrill, columnId }: Props) 
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
     >
+      {columnId === 'drill' && (
+        <div>
+          <input type="checkbox" onChange={(e)=> updateDrillStatus(drill.id, e.target.checked)} />
+        </div>
+      )}
+
       <p className={styles['drill-item-content']}>{drill.content}</p>
+
       {mouseIsOver && columnId === 'stock' && (
         <button className={styles['drill-item-button']} onClick={() => deleteDrill(drill.id)}>
           x

@@ -67,14 +67,14 @@ export const MainBoard = () => {
   const updateDrillStatus = (id: Id, status: boolean) => {
     const newDrills = drills.map((drill) => {
       if (drill.id !== id) return drill
-      return { ...drill, status}
+      return { ...drill, status }
     })
     setDrills(newDrills)
   }
 
   const submitDrill = () => {
     // チェック済みのドリル項目を送信する
-    const drillItems = drills.filter((drill) => drill.columnId === 'drill' &&  drill.status === true)
+    const drillItems = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
     // API 通信、drillItems　送信（モーダルの日付、メモも追加）
     console.log(drillItems)
 
@@ -170,7 +170,14 @@ export const MainBoard = () => {
         </div>
         {createPortal(
           <DragOverlay>
-            {activeDrill && <DrillCard drill={activeDrill} deleteDrill={deleteDrill} updateDrill={updateDrill} updateDrillStatus={updateDrillStatus}/>}
+            {activeDrill && (
+              <DrillCard
+                drill={activeDrill}
+                deleteDrill={deleteDrill}
+                updateDrill={updateDrill}
+                updateDrillStatus={updateDrillStatus}
+              />
+            )}
           </DragOverlay>,
           document.body
         )}

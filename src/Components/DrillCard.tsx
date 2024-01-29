@@ -9,7 +9,7 @@ type Props = {
   drill: Drill
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: string) => void
-  updateDrillStatus : (id:Id, status:boolean) => void
+  updateDrillStatus: (id: Id, status: boolean) => void
   columnId?: 'drill' | 'stock'
 }
 
@@ -70,7 +70,7 @@ export const DrillCard = ({ drill, deleteDrill, updateDrill, updateDrillStatus, 
     >
       {columnId === 'drill' && (
         <div>
-          <input type="checkbox" onChange={(e)=> updateDrillStatus(drill.id, e.target.checked)} />
+          <input type="checkbox" onChange={(e) => updateDrillStatus(drill.id, e.target.checked)} />
         </div>
       )}
 

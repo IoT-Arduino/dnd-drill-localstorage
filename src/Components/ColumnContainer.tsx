@@ -12,12 +12,12 @@ type Props = {
   createDrill: (columnId: Id) => void
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: string) => void
-  updateDrillStatus : (id:Id, status:boolean) => void
+  updateDrillStatus: (id: Id, status: boolean) => void
   submitDrill: () => void
 }
 
 export const ColumnContainer = (props: Props) => {
-  const { column, drills, createDrill, deleteDrill, updateDrill, updateDrillStatus,submitDrill } = props
+  const { column, drills, createDrill, deleteDrill, updateDrill, updateDrillStatus, submitDrill } = props
 
   const drillsIds = useMemo(() => {
     return drills.map((drill) => drill.id)

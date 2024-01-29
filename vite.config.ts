@@ -6,15 +6,22 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   plugins: [react()],
   build: {
-    // distフォルダに出力
     outDir: resolve(__dirname, 'dist'),
-    // 存在しないときはフォルダを作成する
     emptyOutDir: true,
-    // rollupOptions: {
-    //   // entry pointがあるindex.htmlのパス
-    //   input: {
-    //     '': resolve(__dirname, './index.html'),
-    //   },
-    // },
+  },
+  css: {
+    modules: {
+      scopeBehaviour: 'local',
+    },
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/components/componentStyle/componentStyle.scss";`,
+      },
+    },
+  },
+  resolve: {
+    alias: {
+      '@/': `${__dirname}/src/`,
+    },
   },
 });

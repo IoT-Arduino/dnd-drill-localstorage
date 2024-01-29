@@ -9,4 +9,5 @@ export type Drill = {
   id: Id
   columnId: Id
   content: string
+  status: boolean
 }

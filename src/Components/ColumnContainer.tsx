@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { Column, Id, Drill } from '../types'
+import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
 import { DrillCard } from './DrillCard'
 
@@ -12,10 +12,12 @@ type Props = {
   createDrill: (columnId: Id) => void
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: string) => void
+  updateDrillStatus: (id: Id, status: boolean) => void
+  submitDrill: () => void
 }
 
 export const ColumnContainer = (props: Props) => {
-  const { column, drills, createDrill, deleteDrill, updateDrill } = props
+  const { column, drills, createDrill, deleteDrill, updateDrill, updateDrillStatus, submitDrill } = props
 
   const drillsIds = useMemo(() => {
     return drills.map((drill) => drill.id)
@@ -52,17 +54,35 @@ export const ColumnContainer = (props: Props) => {
             <DrillCard
               key={drill.id}
               drill={drill}
+              columnId={column.id}
               deleteDrill={deleteDrill}
               updateDrill={updateDrill}
-              columnId={column.id}
+              updateDrillStatus={updateDrillStatus}
             />
           ))}
         </SortableContext>
       </div>
       {/* Column footer */}
-      <button className={styles['column-footer']} onClick={() => createDrill(column.id)}>
-        ドリルを追加
-      </button>
+      {column.id === 'stock' && (
+        <button
+          className={styles['column-footer']}
+          onClick={() => {
+            createDrill(column.id)
+          }}
+        >
+          ドリルを追加
+        </button>
+      )}
+      {column.id === 'drill' && (
+        <button
+          className={styles['column-footer']}
+          onClick={() => {
+            submitDrill()
+          }}
+        >
+          送信
+        </button>
+      )}
     </div>
   )
 }

@@ -13,7 +13,7 @@ import {
 import { arrayMove } from '@dnd-kit/sortable'
 
 import styles from './MainBoard.module.scss'
-import { Column, Id, Drill } from '../types'
+import { Column, Id, Drill } from './../types/types'
 import { ColumnContainer } from './ColumnContainer'
 import { DrillCard } from './DrillCard'
 
@@ -45,7 +45,8 @@ export const MainBoard = () => {
     const newDrill: Drill = {
       id: Math.floor(Math.random() * 10001),
       columnId,
-      content: `Drill ${drills.length + 1}`
+      content: `Drill ${drills.length + 1}`,
+      status: false
     }
     setDrills([...drills, newDrill])
   }
@@ -59,6 +60,31 @@ export const MainBoard = () => {
     const newDrills = drills.map((drill) => {
       if (drill.id !== id) return drill
       return { ...drill, content }
+    })
+    setDrills(newDrills)
+  }
+
+  const updateDrillStatus = (id: Id, status: boolean) => {
+    const newDrills = drills.map((drill) => {
+      if (drill.id !== id) return drill
+      return { ...drill, status }
+    })
+    setDrills(newDrills)
+  }
+
+  const submitDrill = () => {
+    // チェック済みのドリル項目を送信する
+    const drillItems = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
+    // API 通信、drillItems　送信（モーダルの日付、メモも追加）
+    console.log(drillItems)
+
+    // drillコラムの中のdrillアイテムをstockコラムに移動。
+    const newDrills = drills.map((drill) => {
+      if (drill.columnId === 'drill') {
+        drill.columnId = 'stock'
+        drill.status = false
+      }
+      return drill
     })
     setDrills(newDrills)
   }
@@ -135,6 +161,8 @@ export const MainBoard = () => {
                   createDrill={createDrill}
                   deleteDrill={deleteDrill}
                   updateDrill={updateDrill}
+                  updateDrillStatus={updateDrillStatus}
+                  submitDrill={submitDrill}
                 />
               )
             })}
@@ -142,7 +170,14 @@ export const MainBoard = () => {
         </div>
         {createPortal(
           <DragOverlay>
-            {activeDrill && <DrillCard drill={activeDrill} deleteDrill={deleteDrill} updateDrill={updateDrill} />}
+            {activeDrill && (
+              <DrillCard
+                drill={activeDrill}
+                deleteDrill={deleteDrill}
+                updateDrill={updateDrill}
+                updateDrillStatus={updateDrillStatus}
+              />
+            )}
           </DragOverlay>,
           document.body
         )}

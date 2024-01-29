@@ -11,6 +11,7 @@ import {
   useSensors
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
+import { v4 as uuidv4 } from 'uuid'
 
 import styles from './MainBoard.module.scss'
 import { Column, Id, Drill } from './../types/types'
@@ -42,8 +43,9 @@ export const MainBoard = () => {
   )
 
   const createDrill = (columnId: Id) => {
+    const uniqueId = uuidv4()
     const newDrill: Drill = {
-      id: Math.floor(Math.random() * 10001),
+      id: uniqueId,
       columnId,
       content: `Drill ${drills.length + 1}`,
       status: false

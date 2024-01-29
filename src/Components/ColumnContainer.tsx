@@ -1,6 +1,8 @@
 import { useMemo } from 'react'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { CiCirclePlus } from 'react-icons/ci'
+import { BsSendArrowUp } from 'react-icons/bs'
 
 import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
@@ -70,6 +72,7 @@ export const ColumnContainer = (props: Props) => {
             createDrill(column.id)
           }}
         >
+          <CiCirclePlus />
           ドリルを追加
         </button>
       )}
@@ -80,7 +83,8 @@ export const ColumnContainer = (props: Props) => {
             submitDrill()
           }}
         >
-          送信
+          <BsSendArrowUp />
+          <span className={styles['column-submit-text']}>送信</span>
         </button>
       )}
     </div>

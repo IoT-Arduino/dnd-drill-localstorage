@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { CiCirclePlus } from 'react-icons/ci'
@@ -7,7 +7,6 @@ import { BsSendArrowUp } from 'react-icons/bs'
 import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
 import { DrillCard } from './DrillCard'
-import { Dialog } from './Dialog/Dialog'
 
 type Props = {
   column: Column
@@ -16,18 +15,21 @@ type Props = {
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: string) => void
   updateDrillStatus: (id: Id, status: boolean) => void
-  submitDrill: () => void
-  todayMemo: string,
-  setTodayMemo: React.Dispatch<React.SetStateAction<string>>
   submitButtonEnabled: boolean
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const ColumnContainer = (props: Props) => {
-  const { column, drills, createDrill, deleteDrill, updateDrill, updateDrillStatus, submitDrill, todayMemo, setTodayMemo,submitButtonEnabled } = props
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
-
-  const dateInfo = new Date()
-  const today = `${dateInfo.getFullYear()}年${dateInfo.getMonth() + 1}月${dateInfo.getDate()}日`
+  const {
+    column,
+    drills,
+    createDrill,
+    deleteDrill,
+    updateDrill,
+    updateDrillStatus,
+    submitButtonEnabled,
+    setOpenDialog
+  } = props
 
   const drillsIds = useMemo(() => {
     return drills.map((drill) => drill.id)
@@ -91,44 +93,13 @@ export const ColumnContainer = (props: Props) => {
             onClick={() => {
               setOpenDialog(true)
             }}
-            disabled = {!submitButtonEnabled}
+            disabled={!submitButtonEnabled}
           >
             <BsSendArrowUp />
             <span className={styles['column-submit-text']}>送信</span>
           </button>
         )}
       </div>
-      {/* dialog */}
-      <Dialog isOpen={openDialog} onClose={() => setOpenDialog(false)}>
-        <header>
-          <h2>今日のドリルを送信</h2>
-        </header>
-        <div>
-         <p>本日も練習お疲れ様でした</p>
-         <p>{today}</p>
-         <textarea name="drillMemo" cols={30} rows={10} value={todayMemo} className={styles['dialog-textarea']} onChange={(e:React.ChangeEvent<HTMLTextAreaElement>)=>setTodayMemo(e.target.value)}
-         placeholder='今日のメモ'></textarea>
-          </div>
-        <footer>
-          <button
-            type="button"
-            onClick={() => {
-              setOpenDialog(false)
-              submitDrill()
-            }}
-          >
-            送信
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setOpenDialog(false)
-            }}
-          >
-            キャンセル
-          </button>
-        </footer>
-      </Dialog>
     </>
   )
 }

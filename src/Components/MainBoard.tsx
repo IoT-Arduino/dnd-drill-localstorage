@@ -41,6 +41,8 @@ export const MainBoard = () => {
 
   const dateInfo = new Date()
   const today = `${dateInfo.getFullYear()}年${dateInfo.getMonth() + 1}月${dateInfo.getDate()}日`
+  const drillItemsCheckedFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
+  const drillItemsChecked = drillItemsCheckedFiltered.map((item) => ({ id: item.id, content: item.content }))
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -86,12 +88,10 @@ export const MainBoard = () => {
 
   const submitDrill = () => {
     // チェック済みのドリル項目を送信する
-    const drillItemsFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
-    const drillItems = drillItemsFiltered.map((item) => ({ id: item.id, content: item.content }))
     const submitObject = {
       date: today,
       memo: todayMemo,
-      drillItems
+      drillItemsChecked
     }
 
     // API 通信
@@ -215,6 +215,11 @@ export const MainBoard = () => {
         <div>
           <p>本日も練習お疲れ様でした</p>
           <p>{today}</p>
+          <ul>
+            {drillItemsChecked.map((item) => (
+              <li key={item.id}>{item.content}</li>
+            ))}
+          </ul>
           <textarea
             name="drillMemo"
             cols={30}

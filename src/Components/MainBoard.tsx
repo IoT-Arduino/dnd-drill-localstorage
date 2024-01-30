@@ -33,6 +33,8 @@ export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [drills, setDrills] = useState<Drill[]>([])
   const [activeDrill, setActiveDrill] = useState<Drill | null>(null)
+  const [todayMemo,setTodayMemo] = useState<string>('')
+  const [submitButtonEnabled,setSubmitButtonEnabled] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -71,14 +73,27 @@ export const MainBoard = () => {
       if (drill.id !== id) return drill
       return { ...drill, status }
     })
+    const isAnyDrillActive = newDrills.some((drill) => drill.status)
+    setSubmitButtonEnabled(isAnyDrillActive)
     setDrills(newDrills)
   }
 
   const submitDrill = () => {
     // チェック済みのドリル項目を送信する
-    const drillItems = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
-    // API 通信、drillItems　送信（モーダルの日付、メモも追加）
-    console.log(drillItems)
+    const drillItemsFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
+    const drillItems = drillItemsFiltered.map((item) => ({ id: item.id, content: item.content }))
+    const dateInfo = new Date()
+    const today = `${dateInfo.getFullYear()}年${dateInfo.getMonth() + 1}月${dateInfo.getDate()}日`
+    const submitObject = {
+      date: today,
+      memo: todayMemo,
+      drillItems
+    }
+
+    // API 通信
+    console.log(submitObject)
+
+    setTodayMemo('')
 
     // drillコラムの中のdrillアイテムをstockコラムに移動。
     const newDrills = drills.map((drill) => {
@@ -165,7 +180,10 @@ export const MainBoard = () => {
                   updateDrill={updateDrill}
                   updateDrillStatus={updateDrillStatus}
                   submitDrill={submitDrill}
-                />
+                  todayMemo={todayMemo}
+                  setTodayMemo={setTodayMemo}
+                  submitButtonEnabled={submitButtonEnabled}
+                  />
               )
             })}
           </div>

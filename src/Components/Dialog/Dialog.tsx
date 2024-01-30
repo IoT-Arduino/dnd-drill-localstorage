@@ -56,7 +56,7 @@ export const Dialog: React.FC<Props> = ({
         ref={dialogRef}
         onClick={handleClickDialog}
       >
-        <div className={classes["content"]} onClick={handleClickContent}>
+        <div className={classes["dialog-content"]} onClick={handleClickContent}>
           {children}
         </div>
       </dialog>

@@ -1,65 +1,54 @@
-import { useCallback, useEffect, useRef } from "react";
-import { RemoveScroll } from "react-remove-scroll";
+import { useCallback, useEffect, useRef } from 'react'
+import { RemoveScroll } from 'react-remove-scroll'
 
-import classes from "./Dialog.module.scss";
+import classes from './Dialog.module.scss'
 
 type Props = {
-  isOpen?: boolean;
-  children?: React.ReactNode;
-  onClose?: VoidFunction;
-};
+  isOpen?: boolean
+  children?: React.ReactNode
+  onClose?: VoidFunction
+}
 
-export const Dialog: React.FC<Props> = ({
-  isOpen = false,
-  children,
-  onClose,
-}:Props): React.ReactElement | null => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+export const Dialog: React.FC<Props> = ({ isOpen = false, children, onClose }: Props): React.ReactElement | null => {
+  const dialogRef = useRef<HTMLDialogElement>(null)
 
   useEffect((): void => {
-    const dialogElement = dialogRef.current;
+    const dialogElement = dialogRef.current
     if (!dialogElement) {
-      return;
+      return
     }
     if (isOpen) {
-      if (dialogElement.hasAttribute("open")) {
-        return;
+      if (dialogElement.hasAttribute('open')) {
+        return
       }
-      dialogElement.showModal();
+      dialogElement.showModal()
     } else {
-      if (!dialogElement.hasAttribute("open")) {
-        return;
+      if (!dialogElement.hasAttribute('open')) {
+        return
       }
-      dialogElement.close();
+      dialogElement.close()
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   const handleClickDialog = useCallback(
     (event: React.MouseEvent<HTMLDialogElement>): void => {
-      [event];
-      onClose?.();
+      ;[event]
+      onClose?.()
     },
     [onClose]
-  );
+  )
 
-  const handleClickContent = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>): void => {
-      event.stopPropagation();
-    },
-    []
-  );
+  const handleClickContent = useCallback((event: React.MouseEvent<HTMLDivElement>): void => {
+    event.stopPropagation()
+  }, [])
 
   return (
     <RemoveScroll removeScrollBar enabled={isOpen}>
-      <dialog
-        className={classes["dialog"]}
-        ref={dialogRef}
-        onClick={handleClickDialog}
-      >
-        <div className={classes["dialog-content"]} onClick={handleClickContent}>
+      <dialog className={classes['dialog']} ref={dialogRef} onClick={handleClickDialog}>
+        <div className={classes['dialog-content']} onClick={handleClickContent}>
           {children}
         </div>
       </dialog>
     </RemoveScroll>
-  );
-};
+  )
+}

@@ -1,4 +1,4 @@
-// @use './componentStyle/componentStyle.scss' as *;
+@use "./src/components/componentStyle/componentStyle.scss" as *;
 
 .main-wrapper {
   margin: auto;
@@ -8,7 +8,6 @@
   align-items: center;
   overflow-x: auto;
   overflow-y: hidden;
-  padding-left: 40px;
 }
 
 .context-wrapper {
@@ -16,5 +15,14 @@
   &-sortable {
     display: flex;
     gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .context-wrapper {
+    &-sortable {
+      flex-direction: column;
+      max-width: 380px;
+    }
   }
 }

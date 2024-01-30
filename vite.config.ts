@@ -1,4 +1,6 @@
-import { resolve } from 'path';
+// import { resolve } from 'path';
+import * as path from 'path'
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
@@ -6,22 +8,12 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: resolve(__dirname, 'dist'),
+    outDir: path.resolve(__dirname, 'dist'),
     emptyOutDir: true,
-  },
-  css: {
-    modules: {
-      scopeBehaviour: 'local',
-    },
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "@/components/componentStyle/componentStyle.scss";`,
-      },
-    },
   },
   resolve: {
     alias: {
-      '@/': `${__dirname}/src/`,
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });

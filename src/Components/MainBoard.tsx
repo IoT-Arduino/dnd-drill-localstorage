@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { SetStateAction, useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
   DndContext,
@@ -19,6 +19,8 @@ import { ColumnContainer } from './ColumnContainer'
 import { DrillCard } from './DrillCard'
 import { Dialog } from './Dialog/Dialog'
 
+import {  IonTextarea } from '@ionic/react'
+
 const PresetColumns: Column[] = [
   {
     id: 'drill',
@@ -29,6 +31,10 @@ const PresetColumns: Column[] = [
     title: 'ドリルストック'
   }
 ]
+
+interface TextareaChangeEventDetail {
+  value?: string | null
+}
 
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
@@ -220,7 +226,7 @@ export const MainBoard = () => {
               <li key={item.id}>{item.content}</li>
             ))}
           </ul>
-          <textarea
+          {/* <textarea
             name="drillMemo"
             cols={30}
             rows={10}
@@ -228,9 +234,21 @@ export const MainBoard = () => {
             className={styles['dialog-textarea']}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTodayMemo(e.target.value)}
             placeholder="今日のメモ"
-          ></textarea>
+          ></textarea> */}
+          <div className={styles['dialog-textarea']}>
+
+          <IonTextarea
+            label="今日のメモ"
+            placeholder="今日のメモを入力してください"
+            labelPlacement="floating"
+            fill="outline"
+            value={todayMemo}
+            onIonChange={(e: CustomEvent<TextareaChangeEventDetail>) => setTodayMemo(e.detail.value!)}
+           
+          ></IonTextarea>
+          </div>
         </div>
-        <footer>
+        <footer className=''>
           <button
             type="button"
             onClick={() => {

@@ -18,7 +18,8 @@
 
 // edit
 .drill-item-edit {
-  background-color: #777;
+  background-color: #fff;
+  color: #777;
   padding: 4px;
   height: 100px;
   min-height: 100px;
@@ -45,7 +46,7 @@
   border: none;
   border-radius: 6px;
   background-color: transparent;
-  color: white;
+  color: #777;
   outline: none;
   &:focus {
     outline: none;

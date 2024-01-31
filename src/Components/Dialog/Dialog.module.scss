@@ -1,6 +1,10 @@
 .dialog {
   padding: 0;
   border: none;
+  border-radius: 16px;
+  width: 80%;
+  max-width: 350px;
+  margin: auto auto;
 }
 
 .dialog::backdrop {
@@ -26,8 +30,8 @@
   padding: 16px;
 }
 
-.dialog-textarea {
-  border: none;
-  resize: none;
-  background-color: red($color: #000000);
-}
+// .dialog-textarea {
+//   border: none;
+//   resize: none;
+//   background-color: red($color: #000000);
+// }

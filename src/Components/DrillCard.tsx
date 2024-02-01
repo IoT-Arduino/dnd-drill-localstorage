@@ -6,8 +6,19 @@ import { RiDeleteBin6Fill } from 'react-icons/ri'
 import { Drill, Id } from './../types/types'
 import styles from './DrillCard.module.scss'
 
-import { IonCheckbox, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel } from '@ionic/react'
+import {
+  IonCheckbox,
+  IonIcon,
+  IonItem,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonLabel,
+  IonTextarea,
+  TextareaChangeEventDetail
+} from '@ionic/react'
 import { archive, heart, trash } from 'ionicons/icons'
+import { Dialog } from './Dialog/Dialog'
 
 type Props = {
   drill: Drill
@@ -16,7 +27,7 @@ type Props = {
   updateDrillStatus: (id: Id, status: boolean) => void
   columnId?: 'drill' | 'stock'
   updateDrillColumnId: (id: Id, columnId: string) => void
-}
+  }
 
 export const DrillCard = ({
   drill,
@@ -31,6 +42,8 @@ export const DrillCard = ({
   const [drillComplete, setDrillComplete] = useState(false)
 
   const [inputChecked, setInputChecked] = useState<boolean>(false)
+
+  const [openEditDialog, setOpenEditDialog] = useState<boolean>(false)
 
   const moveToColumnId = columnId === 'stock' ? 'drill' : 'stock'
 
@@ -85,7 +98,7 @@ export const DrillCard = ({
       <IonItemSliding>
         {columnId === 'stock' ? (
           <IonItemOptions side="start">
-            <IonItemOption onClick={() => updateDrill(drill.id, 'dummyContent')}>
+            <IonItemOption onClick={() => setOpenEditDialog(true)}>
               <IonIcon slot="start" icon={trash}></IonIcon>
               Edit
             </IonItemOption>
@@ -132,6 +145,31 @@ export const DrillCard = ({
           </IonItemOption>
         </IonItemOptions>
       </IonItemSliding>
+
+      {/* dialog for edit drill */}
+      <Dialog isOpen={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+        <header>
+          <h2>ドリルの編集</h2>
+        </header>
+        <div className={styles['dialog-textarea']}>
+          <IonTextarea
+            label="ドリルの内容"
+            placeholder="ドリルの内容入力してください"
+            labelPlacement="floating"
+            fill="outline"
+            value={drill.content}
+            onIonChange={(e: CustomEvent<TextareaChangeEventDetail>) => updateDrill(drill.id, e.detail.value!)}
+          ></IonTextarea>
+        </div>
+        <button
+            type="button"
+            onClick={() => {
+              setOpenEditDialog(false)
+            }}
+          >
+            閉じる
+          </button>
+      </Dialog>
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
@@ -46,6 +46,8 @@ export const DrillCard = ({
 
   const moveToColumnId = columnId === 'stock' ? 'drill' : 'stock'
 
+  const slideRef = useRef<HTMLIonItemSlidingElement>(null)
+
   const { setNodeRef, transform, transition, isDragging } = useSortable({
     id: drill.id,
     data: {
@@ -69,8 +71,10 @@ export const DrillCard = ({
     return <div ref={setNodeRef} style={style} className={styles['drill-is-dragging']} />
   }
 
-  // const toggleDrillComplete = (drillComplete:boolean) => {
-  //   // setDrillComplete((prev) => !prev)
+  const closeSlidingItem = () => {
+    slideRef.current?.close()
+  }
+
   //   updateDrillStatus(drill.id, drillComplete)
   //   console.log(drillComplete)
   // }
@@ -94,14 +98,25 @@ export const DrillCard = ({
 
   return (
     <>
-      <IonItemSliding>
+      <IonItemSliding ref={slideRef}>
         {columnId === 'stock' ? (
           <IonItemOptions side="start">
-            <IonItemOption onClick={() => setOpenEditDialog(true)}>
+            <IonItemOption
+              onClick={() => {
+                setOpenEditDialog(true)
+                closeSlidingItem()
+              }}
+            >
               <IonIcon slot="start" icon={trash}></IonIcon>
               Edit
             </IonItemOption>
-            <IonItemOption color="danger" onClick={() => deleteDrill(drill.id)}>
+            <IonItemOption
+              color="danger"
+              onClick={() => {
+                deleteDrill(drill.id)
+                closeSlidingItem()
+              }}
+            >
               <IonIcon slot="start" icon={trash}></IonIcon>
               Delete
             </IonItemOption>
@@ -116,7 +131,18 @@ export const DrillCard = ({
           <IonItem>
             {drillComplete ? (
               <IonLabel>
-                <span style={{ textDecoration: 'line-through' }}>{drill.content}</span>
+                <IonCheckbox
+                  slot="start"
+                  labelPlacement="end"
+                  justify="start"
+                  checked={drillComplete}
+                  onIonChange={(e) => {
+                    updateDrillStatus(drill.id, e.detail.checked)
+                    setDrillComplete(e.detail.checked)
+                  }}
+                >
+                  <span style={{ textDecoration: 'line-through' }}>{drill.content}</span>
+                </IonCheckbox>
               </IonLabel>
             ) : (
               <IonLabel>
@@ -138,7 +164,13 @@ export const DrillCard = ({
         )}
 
         <IonItemOptions side="end">
-          <IonItemOption color="success" onClick={() => updateDrillColumnId(drill.id, moveToColumnId)}>
+          <IonItemOption
+            color="success"
+            onClick={() => {
+              updateDrillColumnId(drill.id, moveToColumnId)
+              closeSlidingItem()
+            }}
+          >
             <IonIcon slot="start" icon={archive}></IonIcon>
             移動
           </IonItemOption>

@@ -7,6 +7,7 @@ import { BsSendArrowUp } from 'react-icons/bs'
 import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
 import { DrillCard } from './DrillCard'
+import { IonItem, IonLabel, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
 
 type Props = {
   column: Column
@@ -17,6 +18,7 @@ type Props = {
   updateDrillStatus: (id: Id, status: boolean) => void
   submitButtonEnabled: boolean
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
+  updateDrillColumnId: (id: Id, columnId: string) => void
 }
 
 export const ColumnContainer = (props: Props) => {
@@ -28,7 +30,8 @@ export const ColumnContainer = (props: Props) => {
     updateDrill,
     updateDrillStatus,
     submitButtonEnabled,
-    setOpenDialog
+    setOpenDialog,
+    updateDrillColumnId
   } = props
 
   const drillsIds = useMemo(() => {
@@ -53,6 +56,17 @@ export const ColumnContainer = (props: Props) => {
     return <div ref={setNodeRef} style={style} className={styles['dragging-container']}></div>
   }
 
+  const handleReorder = (event: CustomEvent<ItemReorderEventDetail>) => {
+    // The `from` and `to` properties contain the index of the item
+    // when the drag started and ended, respectively
+    console.log('Dragged from index', event.detail.from, 'to', event.detail.to)
+
+    // Finish the reorder and position the item in the DOM based on
+    // where the gesture ended. This method can also be called directly
+    // by the reorder group
+    event.detail.complete()
+  }
+
   return (
     <>
       <div ref={setNodeRef} style={style} className={styles['column-container']}>
@@ -61,7 +75,7 @@ export const ColumnContainer = (props: Props) => {
           <div>{column.title}</div>
         </div>
         {/* column drill container */}
-        <div className={styles['column-drill-container']}>
+        {/* <div className={styles['column-drill-container']}>
           <SortableContext items={drillsIds}>
             {drills.map((drill) => (
               <DrillCard
@@ -74,7 +88,26 @@ export const ColumnContainer = (props: Props) => {
               />
             ))}
           </SortableContext>
+        </div> */}
+        <div className={styles['column-drill-container']}>
+          <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
+            {drills.map((drill) => (
+              <IonItem key={drill.id}>
+                {/* <IonLabel>Item 2</IonLabel> */}
+                <DrillCard
+                  drill={drill}
+                  columnId={column.id}
+                  deleteDrill={deleteDrill}
+                  updateDrill={updateDrill}
+                  updateDrillStatus={updateDrillStatus}
+                  updateDrillColumnId={updateDrillColumnId}
+                />
+                <IonReorder slot="end"></IonReorder>
+              </IonItem>
+            ))}
+          </IonReorderGroup>
         </div>
+
         {/* Column footer */}
         {column.id === 'stock' && (
           <button

@@ -63,7 +63,7 @@ export const MainBoard = () => {
     const newDrill: Drill = {
       id: uniqueId,
       columnId,
-      content: `Drill ${drills.length + 1}`,
+      content: `Drill ${drills.length + 1} `,
       status: false
     }
     setDrills([...drills, newDrill])
@@ -82,12 +82,21 @@ export const MainBoard = () => {
     setDrills(newDrills)
   }
 
+  const updateDrillColumnId = (id: Id, columnId: string) => {
+    const newDrills = drills.map((drill) => {
+      if (drill.id !== id) return drill
+      return { ...drill, columnId }
+    })
+    setDrills(newDrills)
+  }
+
   const updateDrillStatus = (id: Id, status: boolean) => {
     const newDrills = drills.map((drill) => {
       if (drill.id !== id) return drill
       return { ...drill, status }
     })
     const isAnyDrillActive = newDrills.some((drill) => drill.status)
+    console.log(newDrills)
     setSubmitButtonEnabled(isAnyDrillActive)
     setDrills(newDrills)
   }
@@ -193,12 +202,13 @@ export const MainBoard = () => {
                     updateDrillStatus={updateDrillStatus}
                     submitButtonEnabled={submitButtonEnabled}
                     setOpenDialog={setOpenDialog}
+                    updateDrillColumnId={updateDrillColumnId}
                   />
                 )
               })}
             </div>
           </div>
-          {createPortal(
+          {/* {createPortal(
             <DragOverlay>
               {activeDrill && (
                 <DrillCard
@@ -210,7 +220,7 @@ export const MainBoard = () => {
               )}
             </DragOverlay>,
             document.body
-          )}
+          )} */}
         </DndContext>
       </div>
       {/* dialog */}

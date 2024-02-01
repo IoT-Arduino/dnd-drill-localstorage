@@ -1,5 +1,4 @@
-import { useMemo } from 'react'
-import { SortableContext, useSortable } from '@dnd-kit/sortable'
+import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { CiCirclePlus } from 'react-icons/ci'
 import { BsSendArrowUp } from 'react-icons/bs'
@@ -7,7 +6,7 @@ import { BsSendArrowUp } from 'react-icons/bs'
 import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
 import { DrillCard } from './DrillCard'
-import { IonItem, IonLabel, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
+import { IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
 
 type Props = {
   column: Column
@@ -34,9 +33,9 @@ export const ColumnContainer = (props: Props) => {
     updateDrillColumnId
   } = props
 
-  const drillsIds = useMemo(() => {
-    return drills.map((drill) => drill.id)
-  }, [drills])
+  // const drillsIds = useMemo(() => {
+  //   return drills.map((drill) => drill.id)
+  // }, [drills])
 
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: column.id,

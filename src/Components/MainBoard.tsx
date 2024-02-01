@@ -1,22 +1,19 @@
-import { SetStateAction, useState } from 'react'
-import { createPortal } from 'react-dom'
-import {
-  DndContext,
-  DragEndEvent,
-  DragOverEvent,
-  DragOverlay,
-  DragStartEvent,
-  PointerSensor,
-  useSensor,
-  useSensors
-} from '@dnd-kit/core'
-import { arrayMove } from '@dnd-kit/sortable'
+import { useState } from 'react'
+// import {
+//   DndContext,
+//   DragEndEvent,
+//   DragOverEvent,
+//   // DragStartEvent,
+//   PointerSensor,
+//   useSensor,
+//   useSensors
+// } from '@dnd-kit/core'
+// import { arrayMove } from '@dnd-kit/sortable'
 import { v4 as uuidv4 } from 'uuid'
 
 import styles from './MainBoard.module.scss'
 import { Column, Id, Drill } from './../types/types'
 import { ColumnContainer } from './ColumnContainer'
-import { DrillCard } from './DrillCard'
 import { Dialog } from './Dialog/Dialog'
 
 import { IonTextarea } from '@ionic/react'
@@ -39,7 +36,7 @@ interface TextareaChangeEventDetail {
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [drills, setDrills] = useState<Drill[]>([])
-  const [activeDrill, setActiveDrill] = useState<Drill | null>(null)
+  // const [activeDrill, setActiveDrill] = useState<Drill | null>(null)
   const [todayMemo, setTodayMemo] = useState<string>('')
   const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false)
 
@@ -50,13 +47,13 @@ export const MainBoard = () => {
   const drillItemsCheckedFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
   const drillItemsChecked = drillItemsCheckedFiltered.map((item) => ({ id: item.id, content: item.content }))
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 10
-      }
-    })
-  )
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor, {
+  //     activationConstraint: {
+  //       distance: 10
+  //     }
+  //   })
+  // )
 
   const createDrill = (columnId: Id) => {
     const uniqueId = uuidv4()
@@ -126,68 +123,68 @@ export const MainBoard = () => {
     setDrills(newDrills)
   }
 
-  const onDragStart = (event: DragStartEvent) => {
-    if (event.active.data.current?.type === 'DrillItem') {
-      setActiveDrill(event.active.data.current.drill)
-      return
-    }
-  }
+  // const onDragStart = (event: DragStartEvent) => {
+  //   if (event.active.data.current?.type === 'DrillItem') {
+  //     setActiveDrill(event.active.data.current.drill)
+  //     return
+  //   }
+  // }
 
-  const onDragEnd = (event: DragEndEvent) => {
-    setActiveDrill(null)
+  // const onDragEnd = (event: DragEndEvent) => {
+  //   // setActiveDrill(null)
 
-    const { active, over } = event
-    if (!over) return
+  //   const { active, over } = event
+  //   if (!over) return
 
-    const activeId = active.id
-    const overId = over.id
+  //   const activeId = active.id
+  //   const overId = over.id
 
-    if (activeId === overId) return
-  }
+  //   if (activeId === overId) return
+  // }
 
-  const onDragOver = (event: DragOverEvent) => {
-    const { active, over } = event
-    if (!over) return
+  // const onDragOver = (event: DragOverEvent) => {
+  //   const { active, over } = event
+  //   if (!over) return
 
-    const activeId = active.id
-    const overId = over.id
+  //   const activeId = active.id
+  //   const overId = over.id
 
-    if (activeId === overId) return
-    const isActiveADrill = active.data.current?.type === 'DrillItem'
-    const isOverADrill = over.data.current?.type === 'DrillItem'
+  //   if (activeId === overId) return
+  //   const isActiveADrill = active.data.current?.type === 'DrillItem'
+  //   const isOverADrill = over.data.current?.type === 'DrillItem'
 
-    if (!isActiveADrill) return
+  //   if (!isActiveADrill) return
 
-    // drillアイテムどうしでの移動
-    if (isActiveADrill && isOverADrill) {
-      setDrills((drills) => {
-        const activeIndex = drills.findIndex((d) => d.id === activeId)
-        const overIndex = drills.findIndex((d) => d.id === overId)
+  //   // drillアイテムどうしでの移動
+  //   if (isActiveADrill && isOverADrill) {
+  //     setDrills((drills) => {
+  //       const activeIndex = drills.findIndex((d) => d.id === activeId)
+  //       const overIndex = drills.findIndex((d) => d.id === overId)
 
-        if (drills[activeIndex].columnId != drills[overIndex].columnId) {
-          drills[activeIndex].columnId = drills[overIndex].columnId
-          return arrayMove(drills, activeIndex, overIndex - 1)
-        }
-        return arrayMove(drills, activeIndex, overIndex)
-      })
-    }
+  //       if (drills[activeIndex].columnId != drills[overIndex].columnId) {
+  //         drills[activeIndex].columnId = drills[overIndex].columnId
+  //         return arrayMove(drills, activeIndex, overIndex - 1)
+  //       }
+  //       return arrayMove(drills, activeIndex, overIndex)
+  //     })
+  //   }
 
-    const isOverAColumn = over.data.current?.type === 'Column'
+  //   const isOverAColumn = over.data.current?.type === 'Column'
 
-    // 別Columnにdrillアイテムを移動
-    if (isActiveADrill && isOverAColumn) {
-      setDrills((drills) => {
-        const activeIndex = drills.findIndex((d) => d.id === activeId)
-        drills[activeIndex].columnId = overId
-        return arrayMove(drills, activeIndex, activeIndex)
-      })
-    }
-  }
+  //   // 別Columnにdrillアイテムを移動
+  //   if (isActiveADrill && isOverAColumn) {
+  //     setDrills((drills) => {
+  //       const activeIndex = drills.findIndex((d) => d.id === activeId)
+  //       drills[activeIndex].columnId = overId
+  //       return arrayMove(drills, activeIndex, activeIndex)
+  //     })
+  //   }
+  // }
 
   return (
     <>
       <div className={styles['main-wrapper']}>
-        <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}>
+        {/* <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}> */}
           <div className={styles['context-wrapper']}>
             <div className={styles['context-wrapper-sortable']}>
               {columns.map((col) => {
@@ -221,7 +218,7 @@ export const MainBoard = () => {
             </DragOverlay>,
             document.body
           )} */}
-        </DndContext>
+        {/* </DndContext> */}
       </div>
       {/* dialog */}
       <Dialog isOpen={openDialog} onClose={() => setOpenDialog(false)}>

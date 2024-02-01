@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { RiDeleteBin6Fill } from 'react-icons/ri'
 
 import { Drill, Id } from './../types/types'
 import styles from './DrillCard.module.scss'
@@ -17,7 +16,7 @@ import {
   IonTextarea,
   TextareaChangeEventDetail
 } from '@ionic/react'
-import { archive, heart, trash } from 'ionicons/icons'
+import { archive, trash } from 'ionicons/icons'
 import { Dialog } from './Dialog/Dialog'
 
 type Props = {
@@ -27,7 +26,7 @@ type Props = {
   updateDrillStatus: (id: Id, status: boolean) => void
   columnId?: 'drill' | 'stock'
   updateDrillColumnId: (id: Id, columnId: string) => void
-  }
+}
 
 export const DrillCard = ({
   drill,
@@ -37,17 +36,17 @@ export const DrillCard = ({
   columnId,
   updateDrillColumnId
 }: Props) => {
-  const [mouseIsOver, setMouseIsOver] = useState(false)
-  const [editMode, setEditMode] = useState(false)
-  const [drillComplete, setDrillComplete] = useState(false)
+  // const [mouseIsOver, setMouseIsOver] = useState(false)
+  // const [editMode, setEditMode] = useState(false)
+  const [drillComplete, setDrillComplete] = useState<boolean>(false)
 
-  const [inputChecked, setInputChecked] = useState<boolean>(false)
+  // const [inputChecked, setInputChecked] = useState<boolean>(false)
 
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false)
 
   const moveToColumnId = columnId === 'stock' ? 'drill' : 'stock'
 
-  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
+  const { setNodeRef, transform, transition, isDragging } = useSortable({
     id: drill.id,
     data: {
       type: 'DrillItem',
@@ -61,10 +60,10 @@ export const DrillCard = ({
     transform: CSS.Transform.toString(transform)
   }
 
-  const toggleEditMode = () => {
-    setEditMode((prev) => !prev)
-    setMouseIsOver(false)
-  }
+  // const toggleEditMode = () => {
+  //   setEditMode((prev) => !prev)
+  //   setMouseIsOver(false)
+  // }
 
   if (isDragging) {
     return <div ref={setNodeRef} style={style} className={styles['drill-is-dragging']} />
@@ -125,10 +124,10 @@ export const DrillCard = ({
                   slot="start"
                   labelPlacement="end"
                   justify="start"
-                  checked={inputChecked}
+                  checked={drillComplete}
                   onIonChange={(e) => {
                     updateDrillStatus(drill.id, e.detail.checked)
-                    setInputChecked(e.detail.checked)
+                    setDrillComplete(e.detail.checked)
                   }}
                 >
                   {drill.content}
@@ -162,13 +161,13 @@ export const DrillCard = ({
           ></IonTextarea>
         </div>
         <button
-            type="button"
-            onClick={() => {
-              setOpenEditDialog(false)
-            }}
-          >
-            閉じる
-          </button>
+          type="button"
+          onClick={() => {
+            setOpenEditDialog(false)
+          }}
+        >
+          閉じる
+        </button>
       </Dialog>
     </>
   )

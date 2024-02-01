@@ -30,6 +30,8 @@ export const DrillCard = ({
   const [editMode, setEditMode] = useState(false)
   const [drillComplete, setDrillComplete] = useState(false)
 
+  const [inputChecked, setInputChecked] = useState<boolean>(false)
+
   const moveToColumnId = columnId === 'stock' ? 'drill' : 'stock'
 
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
@@ -106,7 +108,16 @@ export const DrillCard = ({
               </IonLabel>
             ) : (
               <IonLabel>
-                <IonCheckbox labelPlacement="end" justify="start">
+                <IonCheckbox
+                  slot="start"
+                  labelPlacement="end"
+                  justify="start"
+                  checked={inputChecked}
+                  onIonChange={(e) => {
+                    updateDrillStatus(drill.id, e.detail.checked)
+                    setInputChecked(e.detail.checked)
+                  }}
+                >
                   {drill.content}
                 </IonCheckbox>
               </IonLabel>

@@ -185,27 +185,27 @@ export const MainBoard = () => {
     <>
       <div className={styles['main-wrapper']}>
         {/* <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}> */}
-          <div className={styles['context-wrapper']}>
-            <div className={styles['context-wrapper-sortable']}>
-              {columns.map((col) => {
-                return (
-                  <ColumnContainer
-                    key={col.id}
-                    column={col}
-                    drills={drills.filter((drill) => drill.columnId === col.id)}
-                    createDrill={createDrill}
-                    deleteDrill={deleteDrill}
-                    updateDrill={updateDrill}
-                    updateDrillStatus={updateDrillStatus}
-                    submitButtonEnabled={submitButtonEnabled}
-                    setOpenDialog={setOpenDialog}
-                    updateDrillColumnId={updateDrillColumnId}
-                  />
-                )
-              })}
-            </div>
+        <div className={styles['context-wrapper']}>
+          <div className={styles['context-wrapper-sortable']}>
+            {columns.map((col) => {
+              return (
+                <ColumnContainer
+                  key={col.id}
+                  column={col}
+                  drills={drills.filter((drill) => drill.columnId === col.id)}
+                  createDrill={createDrill}
+                  deleteDrill={deleteDrill}
+                  updateDrill={updateDrill}
+                  updateDrillStatus={updateDrillStatus}
+                  submitButtonEnabled={submitButtonEnabled}
+                  setOpenDialog={setOpenDialog}
+                  updateDrillColumnId={updateDrillColumnId}
+                />
+              )
+            })}
           </div>
-          {/* {createPortal(
+        </div>
+        {/* {createPortal(
             <DragOverlay>
               {activeDrill && (
                 <DrillCard

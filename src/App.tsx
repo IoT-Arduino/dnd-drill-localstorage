@@ -1,10 +1,10 @@
-import '@ionic/react/css/core.css';
-import { setupIonicReact } from '@ionic/react';
+import '@ionic/react/css/core.css'
+import { setupIonicReact } from '@ionic/react'
 
 import './App.css'
 import { MainBoard } from './Components/MainBoard'
 
-setupIonicReact();
+setupIonicReact()
 
 const App = () => {
   return (

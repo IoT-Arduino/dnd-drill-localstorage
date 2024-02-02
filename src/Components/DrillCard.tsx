@@ -1,8 +1,17 @@
-import { useState } from 'react'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import { RiDeleteBin6Fill } from 'react-icons/ri'
+import { useState, useRef } from 'react'
+import {
+  IonIcon,
+  IonItem,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonLabel,
+  IonTextarea,
+  TextareaChangeEventDetail
+} from '@ionic/react'
+import { archive, trash, pencilOutline, checkmarkDoneCircleOutline, arrowUndoCircleOutline } from 'ionicons/icons'
 
+import { Dialog } from './Dialog/Dialog'
 import { Drill, Id } from './../types/types'
 import styles from './DrillCard.module.scss'
 
@@ -12,76 +21,147 @@ type Props = {
   updateDrill: (id: Id, content: string) => void
   updateDrillStatus: (id: Id, status: boolean) => void
   columnId?: 'drill' | 'stock'
+  updateDrillColumnId: (id: Id, columnId: string) => void
 }
 
-export const DrillCard = ({ drill, deleteDrill, updateDrill, updateDrillStatus, columnId }: Props) => {
-  const [mouseIsOver, setMouseIsOver] = useState(false)
-  const [editMode, setEditMode] = useState(false)
+export const DrillCard = ({
+  drill,
+  deleteDrill,
+  updateDrill,
+  updateDrillStatus,
+  columnId,
+  updateDrillColumnId
+}: Props) => {
+  const [drillComplete, setDrillComplete] = useState<boolean>(false)
+  const [editDrillContent, setEditDrillContent] = useState<string>('')
+  const [openEditDialog, setOpenEditDialog] = useState<boolean>(false)
 
-  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
-    id: drill.id,
-    data: {
-      type: 'DrillItem',
-      drill
-    },
-    disabled: editMode
-  })
+  const moveToColumnId = columnId === 'stock' ? 'drill' : 'stock'
+  const slideRef = useRef<HTMLIonItemSlidingElement>(null)
 
-  const style = {
-    transition,
-    transform: CSS.Transform.toString(transform)
-  }
-
-  const toggleEditMode = () => {
-    setEditMode((prev) => !prev)
-    setMouseIsOver(false)
-  }
-
-  if (isDragging) {
-    return <div ref={setNodeRef} style={style} className={styles['drill-is-dragging']} />
-  }
-
-  if (editMode && columnId === 'stock') {
-    return (
-      <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={styles['drill-item-edit']}>
-        <textarea
-          className={styles['drill-text-area']}
-          value={drill.content}
-          autoFocus
-          onBlur={toggleEditMode}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && e.shiftKey) toggleEditMode()
-          }}
-          onChange={(e) => updateDrill(drill.id, e.target.value)}
-        ></textarea>
-      </div>
-    )
+  const closeSlidingItem = () => {
+    slideRef.current?.close()
   }
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      onClick={toggleEditMode}
-      className={styles['drill-item']}
-      onMouseEnter={() => setMouseIsOver(true)}
-      onMouseLeave={() => setMouseIsOver(false)}
-    >
-      {columnId === 'drill' && (
-        <div>
-          <input type="checkbox" onChange={(e) => updateDrillStatus(drill.id, e.target.checked)} />
+    <>
+      <IonItemSliding ref={slideRef}>
+        {columnId === 'stock' ? (
+          <IonItemOptions side="start">
+            <IonItemOption
+              onClick={() => {
+                setOpenEditDialog(true)
+                closeSlidingItem()
+              }}
+            >
+              <IonIcon slot="start" icon={pencilOutline}></IonIcon>
+              Edit
+            </IonItemOption>
+            <IonItemOption
+              color="danger"
+              onClick={() => {
+                deleteDrill(drill.id)
+                closeSlidingItem()
+              }}
+            >
+              <IonIcon slot="start" icon={trash}></IonIcon>
+              Delete
+            </IonItemOption>
+          </IonItemOptions>
+        ) : null}
+
+        {columnId === 'drill' && drillComplete ? (
+          <IonItemOptions side="start">
+            <IonItemOption
+              color="success"
+              onClick={() => {
+                updateDrillStatus(drill.id, false)
+                setDrillComplete(false)
+                closeSlidingItem()
+              }}
+            >
+              <IonIcon slot="start" icon={arrowUndoCircleOutline}></IonIcon>
+              UnCheck
+            </IonItemOption>
+          </IonItemOptions>
+        ) : columnId === 'drill' && !drillComplete ? (
+          <IonItemOptions side="start">
+            <IonItemOption
+              onClick={() => {
+                updateDrillStatus(drill.id, true)
+                setDrillComplete(true)
+                closeSlidingItem()
+              }}
+            >
+              <IonIcon slot="start" icon={checkmarkDoneCircleOutline}></IonIcon>
+              Done
+            </IonItemOption>
+          </IonItemOptions>
+        ) : null}
+
+        {columnId === 'stock' ? (
+          <IonItem>
+            <IonLabel>{drill.content}</IonLabel>
+          </IonItem>
+        ) : (
+          <IonItem>
+            {drillComplete ? (
+              <IonLabel>
+                <span style={{ textDecoration: 'line-through' }}>{drill.content}</span>
+              </IonLabel>
+            ) : (
+              <IonLabel>{drill.content}</IonLabel>
+            )}
+          </IonItem>
+        )}
+
+        <IonItemOptions side="end">
+          <IonItemOption
+            color="success"
+            onClick={() => {
+              updateDrillColumnId(drill.id, moveToColumnId)
+              closeSlidingItem()
+            }}
+          >
+            <IonIcon slot="start" icon={archive}></IonIcon>
+            移動
+          </IonItemOption>
+        </IonItemOptions>
+      </IonItemSliding>
+
+      {/* dialog for edit drill */}
+      <Dialog isOpen={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+        <header>
+          <h2>ドリルの編集</h2>
+        </header>
+        <div className={styles['dialog-textarea']}>
+          <IonTextarea
+            label="ドリルの内容"
+            placeholder="ドリルの内容入力してください"
+            labelPlacement="floating"
+            fill="outline"
+            value={drill.content}
+            onIonChange={(e: CustomEvent<TextareaChangeEventDetail>) => setEditDrillContent(e.detail.value!)}
+          ></IonTextarea>
         </div>
-      )}
-
-      <p className={styles['drill-item-content']}>{drill.content}</p>
-
-      {mouseIsOver && columnId === 'stock' && (
-        <button className={styles['drill-item-button']} onClick={() => deleteDrill(drill.id)}>
-          <RiDeleteBin6Fill />
+        <button
+          type="button"
+          onClick={() => {
+            updateDrill(drill.id, editDrillContent)
+            setOpenEditDialog(false)
+          }}
+        >
+          編集確定
         </button>
-      )}
-    </div>
+        <button
+          type="button"
+          onClick={() => {
+            setOpenEditDialog(false)
+          }}
+        >
+          編集キャンセル
+        </button>
+      </Dialog>
+    </>
   )
 }

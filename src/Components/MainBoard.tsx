@@ -1,22 +1,11 @@
 import { useState } from 'react'
-// import {
-//   DndContext,
-//   DragEndEvent,
-//   DragOverEvent,
-//   // DragStartEvent,
-//   PointerSensor,
-//   useSensor,
-//   useSensors
-// } from '@dnd-kit/core'
-// import { arrayMove } from '@dnd-kit/sortable'
+import { IonTextarea } from '@ionic/react'
 import { v4 as uuidv4 } from 'uuid'
 
-import styles from './MainBoard.module.scss'
-import { Column, Id, Drill } from './../types/types'
 import { ColumnContainer } from './ColumnContainer'
 import { Dialog } from './Dialog/Dialog'
-
-import { IonTextarea } from '@ionic/react'
+import styles from './MainBoard.module.scss'
+import { Column, Id, Drill } from './../types/types'
 
 const PresetColumns: Column[] = [
   {
@@ -36,31 +25,25 @@ interface TextareaChangeEventDetail {
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
   const [drills, setDrills] = useState<Drill[]>([])
-  // const [activeDrill, setActiveDrill] = useState<Drill | null>(null)
+  const [drillContent, setDrillContent] = useState<string>('')
+
   const [todayMemo, setTodayMemo] = useState<string>('')
   const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false)
 
   const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false)
 
   const dateInfo = new Date()
   const today = `${dateInfo.getFullYear()}年${dateInfo.getMonth() + 1}月${dateInfo.getDate()}日`
   const drillItemsCheckedFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
   const drillItemsChecked = drillItemsCheckedFiltered.map((item) => ({ id: item.id, content: item.content }))
 
-  // const sensors = useSensors(
-  //   useSensor(PointerSensor, {
-  //     activationConstraint: {
-  //       distance: 10
-  //     }
-  //   })
-  // )
-
   const createDrill = (columnId: Id) => {
     const uniqueId = uuidv4()
     const newDrill: Drill = {
       id: uniqueId,
       columnId,
-      content: `Drill ${drills.length + 1} `,
+      content: `Drill ${drills.length + 1} ${drillContent}`, // 仮置き
       status: false
     }
     setDrills([...drills, newDrill])
@@ -106,7 +89,7 @@ export const MainBoard = () => {
       drillItemsChecked
     }
 
-    // API 通信
+    // 保存機能と差し替え予定
     console.log(submitObject)
 
     setTodayMemo('')
@@ -123,68 +106,9 @@ export const MainBoard = () => {
     setDrills(newDrills)
   }
 
-  // const onDragStart = (event: DragStartEvent) => {
-  //   if (event.active.data.current?.type === 'DrillItem') {
-  //     setActiveDrill(event.active.data.current.drill)
-  //     return
-  //   }
-  // }
-
-  // const onDragEnd = (event: DragEndEvent) => {
-  //   // setActiveDrill(null)
-
-  //   const { active, over } = event
-  //   if (!over) return
-
-  //   const activeId = active.id
-  //   const overId = over.id
-
-  //   if (activeId === overId) return
-  // }
-
-  // const onDragOver = (event: DragOverEvent) => {
-  //   const { active, over } = event
-  //   if (!over) return
-
-  //   const activeId = active.id
-  //   const overId = over.id
-
-  //   if (activeId === overId) return
-  //   const isActiveADrill = active.data.current?.type === 'DrillItem'
-  //   const isOverADrill = over.data.current?.type === 'DrillItem'
-
-  //   if (!isActiveADrill) return
-
-  //   // drillアイテムどうしでの移動
-  //   if (isActiveADrill && isOverADrill) {
-  //     setDrills((drills) => {
-  //       const activeIndex = drills.findIndex((d) => d.id === activeId)
-  //       const overIndex = drills.findIndex((d) => d.id === overId)
-
-  //       if (drills[activeIndex].columnId != drills[overIndex].columnId) {
-  //         drills[activeIndex].columnId = drills[overIndex].columnId
-  //         return arrayMove(drills, activeIndex, overIndex - 1)
-  //       }
-  //       return arrayMove(drills, activeIndex, overIndex)
-  //     })
-  //   }
-
-  //   const isOverAColumn = over.data.current?.type === 'Column'
-
-  //   // 別Columnにdrillアイテムを移動
-  //   if (isActiveADrill && isOverAColumn) {
-  //     setDrills((drills) => {
-  //       const activeIndex = drills.findIndex((d) => d.id === activeId)
-  //       drills[activeIndex].columnId = overId
-  //       return arrayMove(drills, activeIndex, activeIndex)
-  //     })
-  //   }
-  // }
-
   return (
     <>
       <div className={styles['main-wrapper']}>
-        {/* <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}> */}
         <div className={styles['context-wrapper']}>
           <div className={styles['context-wrapper-sortable']}>
             {columns.map((col) => {
@@ -199,28 +123,16 @@ export const MainBoard = () => {
                   updateDrillStatus={updateDrillStatus}
                   submitButtonEnabled={submitButtonEnabled}
                   setOpenDialog={setOpenDialog}
+                  setOpenCreateDialog={setOpenCreateDialog}
                   updateDrillColumnId={updateDrillColumnId}
                 />
               )
             })}
           </div>
         </div>
-        {/* {createPortal(
-            <DragOverlay>
-              {activeDrill && (
-                <DrillCard
-                  drill={activeDrill}
-                  deleteDrill={deleteDrill}
-                  updateDrill={updateDrill}
-                  updateDrillStatus={updateDrillStatus}
-                />
-              )}
-            </DragOverlay>,
-            document.body
-          )} */}
-        {/* </DndContext> */}
       </div>
-      {/* dialog */}
+
+      {/* submit dialog */}
       <Dialog isOpen={openDialog} onClose={() => setOpenDialog(false)}>
         <header>
           <h2>今日のドリルを送信</h2>
@@ -233,15 +145,6 @@ export const MainBoard = () => {
               <li key={item.id}>{item.content}</li>
             ))}
           </ul>
-          {/* <textarea
-            name="drillMemo"
-            cols={30}
-            rows={10}
-            value={todayMemo}
-            className={styles['dialog-textarea']}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTodayMemo(e.target.value)}
-            placeholder="今日のメモ"
-          ></textarea> */}
           <div className={styles['dialog-textarea']}>
             <IonTextarea
               label="今日のメモ"
@@ -267,6 +170,44 @@ export const MainBoard = () => {
             type="button"
             onClick={() => {
               setOpenDialog(false)
+            }}
+          >
+            キャンセル
+          </button>
+        </footer>
+      </Dialog>
+
+      {/* create dialog */}
+      <Dialog isOpen={openCreateDialog} onClose={() => setOpenCreateDialog(false)}>
+        <header>
+          <h2>新規ドリルを作成</h2>
+        </header>
+        <div>
+          <div className={styles['dialog-textarea']}>
+            <IonTextarea
+              label="ドリルの内容"
+              placeholder="ドリルの内容を入力してください"
+              labelPlacement="floating"
+              fill="outline"
+              value={todayMemo}
+              onIonChange={(e: CustomEvent<TextareaChangeEventDetail>) => setDrillContent(e.detail.value!)}
+            ></IonTextarea>
+          </div>
+        </div>
+        <footer className="">
+          <button
+            type="button"
+            onClick={() => {
+              setOpenCreateDialog(false)
+              createDrill('stock')
+            }}
+          >
+            作成
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setOpenCreateDialog(false)
             }}
           >
             キャンセル

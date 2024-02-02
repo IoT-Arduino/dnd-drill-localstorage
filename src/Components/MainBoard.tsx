@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { IonTextarea } from '@ionic/react'
-import { v4 as uuidv4 } from 'uuid'
+import { IonHeader, IonTextarea, IonTitle, IonToolbar } from '@ionic/react'
 
 import { ColumnContainer } from './ColumnContainer'
 import { Dialog } from './Dialog/Dialog'
 import styles from './MainBoard.module.scss'
-import { Column, Id, Drill } from './../types/types'
+import { Column, Id } from './../types/types'
+import { useStorage } from '../hooks/useStorage'
 
 const PresetColumns: Column[] = [
   {
@@ -24,61 +24,47 @@ interface TextareaChangeEventDetail {
 
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
-  const [drills, setDrills] = useState<Drill[]>([])
   const [drillContent, setDrillContent] = useState<string>('')
-
   const [todayMemo, setTodayMemo] = useState<string>('')
-  const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false)
-
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false)
+
+  // storage related
+  const {
+    drills,
+    createDrillOnStorage,
+    deleteDrillOnStorage,
+    updateDrillOnStorage,
+    updateDrillColumnIdOnStorage,
+    updateDrillStatusOnStorage,
+    moveDrillsOnSubmit,
+    submitButtonEnabled,
+    setSubmitButtonEnabled
+  } = useStorage()
 
   const dateInfo = new Date()
   const today = `${dateInfo.getFullYear()}年${dateInfo.getMonth() + 1}月${dateInfo.getDate()}日`
   const drillItemsCheckedFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
   const drillItemsChecked = drillItemsCheckedFiltered.map((item) => ({ id: item.id, content: item.content }))
 
-  const createDrill = (columnId: Id) => {
-    const uniqueId = uuidv4()
-    const newDrill: Drill = {
-      id: uniqueId,
-      columnId,
-      content: `Drill ${drills.length + 1} ${drillContent}`, // 仮置き
-      status: false
-    }
-    setDrills([...drills, newDrill])
+  const createDrill = async (columnId: Id) => {
+    await createDrillOnStorage(columnId, drillContent)
   }
 
-  const deleteDrill = (id: Id) => {
-    const newDrills = drills.filter((drill) => drill.id !== id)
-    setDrills(newDrills)
+  const deleteDrill = async (id: Id) => {
+    await deleteDrillOnStorage(id)
   }
 
-  const updateDrill = (id: Id, content: string) => {
-    const newDrills = drills.map((drill) => {
-      if (drill.id !== id) return drill
-      return { ...drill, content }
-    })
-    setDrills(newDrills)
+  const updateDrill = async (id: Id, content: string) => {
+    await updateDrillOnStorage(id, content)
   }
 
-  const updateDrillColumnId = (id: Id, columnId: string) => {
-    const newDrills = drills.map((drill) => {
-      if (drill.id !== id) return drill
-      return { ...drill, columnId }
-    })
-    setDrills(newDrills)
+  const updateDrillColumnId = async (id: Id, columnId: string) => {
+    await updateDrillColumnIdOnStorage(id, columnId)
   }
 
-  const updateDrillStatus = (id: Id, status: boolean) => {
-    const newDrills = drills.map((drill) => {
-      if (drill.id !== id) return drill
-      return { ...drill, status }
-    })
-    const isAnyDrillActive = newDrills.some((drill) => drill.status)
-    console.log(newDrills)
-    setSubmitButtonEnabled(isAnyDrillActive)
-    setDrills(newDrills)
+  const updateDrillStatus = async (id: Id, status: boolean) => {
+    await updateDrillStatusOnStorage(id, status)
   }
 
   const submitDrill = () => {
@@ -95,19 +81,17 @@ export const MainBoard = () => {
     setTodayMemo('')
     setSubmitButtonEnabled(false)
 
-    // drillコラムの中のdrillアイテムをstockコラムに移動。
-    const newDrills = drills.map((drill) => {
-      if (drill.columnId === 'drill') {
-        drill.columnId = 'stock'
-        drill.status = false
-      }
-      return drill
-    })
-    setDrills(newDrills)
+    moveDrillsOnSubmit()
   }
 
   return (
     <>
+      <IonHeader>
+        <IonToolbar color="primary">
+          <IonTitle>My Drills</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+
       <div className={styles['main-wrapper']}>
         <div className={styles['context-wrapper']}>
           <div className={styles['context-wrapper-sortable']}>

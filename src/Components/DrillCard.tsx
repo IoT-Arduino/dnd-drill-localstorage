@@ -105,13 +105,7 @@ export const DrillCard = ({
           </IonItem>
         ) : (
           <IonItem>
-            {drillComplete ? (
-              <IonLabel>
-                <span style={{ textDecoration: 'line-through' }}>{drill.content}</span>
-              </IonLabel>
-            ) : (
-              <IonLabel>{drill.content}</IonLabel>
-            )}
+            <IonLabel className={drillComplete ? styles['drill-item-done'] : ''}>{drill.content}</IonLabel>
           </IonItem>
         )}
 

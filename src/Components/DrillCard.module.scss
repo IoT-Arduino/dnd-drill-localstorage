@@ -79,6 +79,10 @@
     white-space: pre-wrap;
   }
 
+  &-done {
+    text-decoration: line-through;
+  }
+
   &-button {
     position: absolute;
     right: 16px;

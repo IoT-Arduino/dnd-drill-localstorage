@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { IonHeader, IonTextarea, IonTitle, IonToolbar } from '@ionic/react'
+import { IonButton, IonHeader, IonTextarea, IonTitle, IonToolbar } from '@ionic/react'
 
 import { ColumnContainer } from './ColumnContainer'
 import { Dialog } from './Dialog/Dialog'
@@ -87,33 +87,29 @@ export const MainBoard = () => {
   return (
     <>
       <IonHeader>
-        <IonToolbar color="primary">
+        <IonToolbar color="success">
           <IonTitle>My Drills</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <div className={styles['main-wrapper']}>
-        <div className={styles['context-wrapper']}>
-          <div className={styles['context-wrapper-sortable']}>
-            {columns.map((col) => {
-              return (
-                <ColumnContainer
-                  key={col.id}
-                  column={col}
-                  drills={drills.filter((drill) => drill.columnId === col.id)}
-                  createDrill={createDrill}
-                  deleteDrill={deleteDrill}
-                  updateDrill={updateDrill}
-                  updateDrillStatus={updateDrillStatus}
-                  submitButtonEnabled={submitButtonEnabled}
-                  setOpenDialog={setOpenDialog}
-                  setOpenCreateDialog={setOpenCreateDialog}
-                  updateDrillColumnId={updateDrillColumnId}
-                />
-              )
-            })}
-          </div>
-        </div>
+        {columns.map((col) => {
+          return (
+            <ColumnContainer
+              key={col.id}
+              column={col}
+              drills={drills.filter((drill) => drill.columnId === col.id)}
+              createDrill={createDrill}
+              deleteDrill={deleteDrill}
+              updateDrill={updateDrill}
+              updateDrillStatus={updateDrillStatus}
+              submitButtonEnabled={submitButtonEnabled}
+              setOpenDialog={setOpenDialog}
+              setOpenCreateDialog={setOpenCreateDialog}
+              updateDrillColumnId={updateDrillColumnId}
+            />
+          )
+        })}
       </div>
 
       {/* submit dialog */}
@@ -141,7 +137,8 @@ export const MainBoard = () => {
           </div>
         </div>
         <footer className="">
-          <button
+          <IonButton
+            color="success"
             type="button"
             onClick={() => {
               setOpenDialog(false)
@@ -149,15 +146,16 @@ export const MainBoard = () => {
             }}
           >
             送信
-          </button>
-          <button
+          </IonButton>
+          <IonButton
+            color="success"
             type="button"
             onClick={() => {
               setOpenDialog(false)
             }}
           >
             キャンセル
-          </button>
+          </IonButton>
         </footer>
       </Dialog>
 
@@ -179,7 +177,8 @@ export const MainBoard = () => {
           </div>
         </div>
         <footer className="">
-          <button
+          <IonButton
+            color="success"
             type="button"
             onClick={() => {
               setOpenCreateDialog(false)
@@ -187,15 +186,16 @@ export const MainBoard = () => {
             }}
           >
             作成
-          </button>
-          <button
+          </IonButton>
+          <IonButton
+            color="success"
             type="button"
             onClick={() => {
               setOpenCreateDialog(false)
             }}
           >
             キャンセル
-          </button>
+          </IonButton>
         </footer>
       </Dialog>
     </>

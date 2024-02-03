@@ -1,5 +1,5 @@
 import '@ionic/react/css/core.css'
-import { IonApp, setupIonicReact } from '@ionic/react'
+import { IonApp, IonPage, setupIonicReact } from '@ionic/react'
 
 import './App.css'
 import { MainBoard } from './Components/MainBoard'
@@ -17,13 +17,14 @@ import '@ionic/react/css/text-transformation.css'
 import '@ionic/react/css/flex-utils.css'
 import '@ionic/react/css/display.css'
 
-
 setupIonicReact()
 
 const App = () => {
   return (
     <IonApp>
-      <MainBoard />
+      <IonPage>
+        <MainBoard />
+      </IonPage>
     </IonApp>
   )
 }

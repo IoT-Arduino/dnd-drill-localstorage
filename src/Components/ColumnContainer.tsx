@@ -1,4 +1,4 @@
-import { IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
+import { IonButton, IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
 import { CiCirclePlus } from 'react-icons/ci'
 import { BsSendArrowUp } from 'react-icons/bs'
 
@@ -48,7 +48,7 @@ export const ColumnContainer = (props: Props) => {
         <div className={styles['column-drill-container']}>
           <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
             {drills.map((drill) => (
-              <IonItem key={drill.id}>
+              <IonItem key={drill.id} className={styles['column-drill-item']} lines="none">
                 <DrillCard
                   drill={drill}
                   columnId={column.id}
@@ -57,14 +57,15 @@ export const ColumnContainer = (props: Props) => {
                   updateDrillStatus={updateDrillStatus}
                   updateDrillColumnId={updateDrillColumnId}
                 />
-                <IonReorder slot="end"></IonReorder>
+                <IonReorder slot="end" style={{ marginLeft: '0' }}></IonReorder>
               </IonItem>
             ))}
           </IonReorderGroup>
         </div>
         {/* column fotter */}
         {column.id === 'stock' && (
-          <button
+          <IonButton
+            color="success"
             className={styles['column-footer']}
             onClick={() => {
               setOpenCreateDialog(true)
@@ -72,10 +73,11 @@ export const ColumnContainer = (props: Props) => {
           >
             <CiCirclePlus />
             ドリルを追加
-          </button>
+          </IonButton>
         )}
         {column.id === 'drill' && (
-          <button
+          <IonButton
+            color="success"
             className={styles['column-footer']}
             onClick={() => {
               setOpenDialog(true)
@@ -84,7 +86,7 @@ export const ColumnContainer = (props: Props) => {
           >
             <BsSendArrowUp />
             <span className={styles['column-submit-text']}>送信</span>
-          </button>
+          </IonButton>
         )}
       </div>
     </>

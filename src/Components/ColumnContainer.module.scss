@@ -2,25 +2,26 @@
 
 .column-container {
   background-color: $columnBackgroundColor;
-  width: 350px;
-  height: 500px;
-  max-height: 500px;
+  width: clamp(350px, 40vw, 500px);
+  height: 700px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
 }
 
 .column-title {
-  background-color: $columnBackgroundColor;
+  background-color: $columnTitleColor;
   height: 60px;
+  width: 100%;
   cursor: grab;
-  border-radius: 6px;
-  border-bottom: 4px solid $columnBackgroundColor;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 12px;
   font-weight: bold;
+  color: #fff;
 }
 
 .column-drill-container {
@@ -33,6 +34,12 @@
   overflow-y: auto;
 }
 
+.column-drill-item {
+  margin: 16px;
+  border-radius: 6px;
+  padding: 0;
+}
+
 .column-footer {
   display: flex;
   gap: 2;
@@ -42,11 +49,18 @@
   padding: 16px;
   &:hover {
     background-color: $mainBackgroundColor;
-    color: #444;
+    opacity: 0.5;
   }
 }
 
 .column-submit-text {
   display: inline-block;
   margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+  .column-container {
+    width: min(400px, 95vw);
+    height: 500px;
+  }
 }

@@ -1,110 +1,18 @@
 @use './componentStyle/componentStyle.scss' as *;
 
-.drill-is-dragging {
-  opacity: 0.3;
-  background-color: #fff;
-  padding: 4px;
-  height: 100px;
-  min-height: 100px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  text-align: left;
-  border-radius: 12px;
-  border: 2px solid $borderColor;
-  cursor: grab;
-  position: relative;
-}
-
-// edit
-.drill-item-edit {
-  background-color: #fff;
-  color: #777;
-  padding: 4px;
-  height: 100px;
-  min-height: 100px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  text-align: left;
-  border-radius: 12px;
-  cursor: grab;
-  position: relative;
-
-  &:hover {
-    box-shadow: 0 0 0 2px $borderColor inset;
-  }
-}
-
-//
-.drill-text-area {
-  padding-left: 12px;
-  padding-right: 16px;
-  height: 90%;
-  width: 100%;
-  resize: none;
-  border: none;
-  border-radius: 6px;
-  background-color: transparent;
-  color: #777;
-  outline: none;
-  &:focus {
-    outline: none;
-  }
-}
-
-// not edit
 .drill-item {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  height: 100px;
-  min-height: 100px;
-  background-color: $drillBackgroundColor;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  position: relative;
-  cursor: grab;
-  &:hover {
-    border: 1px solid $borderColor;
-  }
+  margin: 16px;
+  max-height: 100px;
+  // overflow-y: scroll;
 
-  &-content {
-    margin-top: auto;
-    margin-bottom: auto;
-    height: 90%;
-    width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    white-space: pre-wrap;
+  &-label {
+    margin: 0;
+    padding: 0;
   }
 
   &-done {
     text-decoration: line-through;
+    margin: 0;
+    padding: 0;
   }
-
-  &-button {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 8px;
-    border-radius: 6px;
-    opacity: 0.6;
-    stroke: white;
-
-    &-hover {
-      opacity: 1;
-    }
-  }
-}
-
-ion-checkbox {
-  --size: 32px;
-  --checkbox-background-checked: #6815ec;
-}
-
-ion-checkbox::part(container) {
-  border-radius: 6px;
-  border: 2px solid #6815ec;
 }

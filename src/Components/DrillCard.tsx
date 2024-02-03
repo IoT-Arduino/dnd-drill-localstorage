@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import {
+  IonButton,
   IonIcon,
   IonItem,
   IonItemOption,
@@ -45,7 +46,7 @@ export const DrillCard = ({
 
   return (
     <>
-      <IonItemSliding ref={slideRef}>
+      <IonItemSliding ref={slideRef} className={styles['drill-item']}>
         {columnId === 'stock' ? (
           <IonItemOptions side="start">
             <IonItemOption
@@ -100,12 +101,14 @@ export const DrillCard = ({
         ) : null}
 
         {columnId === 'stock' ? (
-          <IonItem>
-            <IonLabel>{drill.content}</IonLabel>
+          <IonItem lines="none">
+            <IonLabel className={styles['drill-item-label']}>{drill.content}</IonLabel>
           </IonItem>
         ) : (
-          <IonItem>
-            <IonLabel className={drillComplete ? styles['drill-item-done'] : ''}>{drill.content}</IonLabel>
+          <IonItem lines="none">
+            <IonLabel className={drillComplete ? styles['drill-item-done'] : styles['drill-item-label']}>
+              {drill.content}
+            </IonLabel>
           </IonItem>
         )}
 
@@ -138,7 +141,8 @@ export const DrillCard = ({
             onIonChange={(e: CustomEvent<TextareaChangeEventDetail>) => setEditDrillContent(e.detail.value!)}
           ></IonTextarea>
         </div>
-        <button
+        <IonButton
+          color="success"
           type="button"
           onClick={() => {
             updateDrill(drill.id, editDrillContent)
@@ -146,15 +150,16 @@ export const DrillCard = ({
           }}
         >
           編集確定
-        </button>
-        <button
+        </IonButton>
+        <IonButton
+          color="success"
           type="button"
           onClick={() => {
             setOpenEditDialog(false)
           }}
         >
           編集キャンセル
-        </button>
+        </IonButton>
       </Dialog>
     </>
   )

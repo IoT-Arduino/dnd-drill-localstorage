@@ -40,23 +40,23 @@
   padding: 0;
 }
 
-.column-footer {
-  display: flex;
-  gap: 2;
-  align-items: center;
-  border: 2px solid $columnBackgroundColor;
-  border-radius: 6px;
-  padding: 16px;
-  &:hover {
-    background-color: $mainBackgroundColor;
-    opacity: 0.5;
-  }
-}
+// .column-footer {
+//   display: flex;
+//   gap: 2;
+//   align-items: center;
+//   border: 2px solid $columnBackgroundColor;
+//   border-radius: 6px;
+//   padding: 16px;
+//   &:hover {
+//     background-color: $mainBackgroundColor;
+//     opacity: 0.5;
+//   }
+// }
 
-.column-submit-text {
-  display: inline-block;
-  margin-left: 8px;
-}
+// .column-submit-text {
+//   display: inline-block;
+//   margin-left: 8px;
+// }
 
 @media (max-width: 768px) {
   .column-container {

@@ -1,0 +1,19 @@
+@use '../componentStyle/componentStyle.scss' as *;
+
+.modal-button {
+  display: flex;
+  gap: 2;
+  align-items: center;
+  border: 2px solid $columnBackgroundColor;
+  border-radius: 6px;
+  padding: 16px;
+  &:hover {
+    background-color: $mainBackgroundColor;
+    opacity: 0.5;
+  }
+}
+
+.modal-submit-text {
+  display: inline-block;
+  margin-left: 8px;
+}

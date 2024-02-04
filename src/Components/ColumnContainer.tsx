@@ -1,6 +1,6 @@
-import { IonButton, IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
+import { IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
 // import { CiCirclePlus } from 'react-icons/ci'
-import { BsSendArrowUp } from 'react-icons/bs'
+// import { BsSendArrowUp } from 'react-icons/bs'
 
 import { DrillCard } from './DrillCard'
 import { Column, Id, Drill } from './../types/types'
@@ -11,14 +11,15 @@ import InputModal from './modal/InputModal'
 type Props = {
   column: Column
   drills: Drill[]
-  createDrill: (columnId: Id, content:string) => void
+  createDrill: (columnId: Id, content: string) => void
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: string) => void
   updateDrillStatus: (id: Id, status: boolean) => void
   submitButtonEnabled: boolean
-  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
+  // setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
   // setOpenCreateDialog: React.Dispatch<React.SetStateAction<boolean>>
   updateDrillColumnId: (id: Id, columnId: string) => void
+  submitDrill: (todayMemo: string) => void
 }
 
 export const ColumnContainer = (props: Props) => {
@@ -30,9 +31,10 @@ export const ColumnContainer = (props: Props) => {
     updateDrill,
     updateDrillStatus,
     submitButtonEnabled,
-    setOpenDialog,
+    // setOpenDialog,
     // setOpenCreateDialog,
-    updateDrillColumnId
+    updateDrillColumnId,
+    submitDrill
   } = props
 
   const handleReorder = (event: CustomEvent<ItemReorderEventDetail>) => {
@@ -67,6 +69,7 @@ export const ColumnContainer = (props: Props) => {
         {/* column fotter */}
         {column.id === 'stock' && (
           <InputModal
+            mode="createDrill"
             modalButtonTitle="ドリルを追加"
             title="新規ドリル作成"
             subTitle=""
@@ -75,10 +78,27 @@ export const ColumnContainer = (props: Props) => {
             button1Label="作成"
             button2Label="キャンセル"
             createDrill={createDrill}
+            submitDrill={submitDrill}
+            disabled={false}
           />
         )}
         {column.id === 'drill' && (
-          <IonButton
+          <>
+            <InputModal
+              mode="submitToday"
+              modalButtonTitle="送信"
+              title="今日のドリルを送信"
+              subTitle="本日もお疲れ様でした"
+              textAreaLabel="今日のメモ"
+              placeHolder="今日のメモを入力してください"
+              button1Label="送信"
+              button2Label="キャンセル"
+              // createDrill={createDrill}
+              disabled={!submitButtonEnabled}
+              createDrill={createDrill}
+              submitDrill={submitDrill}
+            />
+            {/* <IonButton
             color="success"
             className={styles['column-footer']}
             onClick={() => {
@@ -88,7 +108,8 @@ export const ColumnContainer = (props: Props) => {
           >
             <BsSendArrowUp />
             <span className={styles['column-submit-text']}>送信</span>
-          </IonButton>
+          </IonButton> */}
+          </>
         )}
       </div>
     </>

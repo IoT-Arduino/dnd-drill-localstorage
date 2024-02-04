@@ -5,6 +5,7 @@ import { BsSendArrowUp } from 'react-icons/bs'
 import { DrillCard } from './DrillCard'
 import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
+import { FloatingActionButton } from './utilParts/FloatingActionButton'
 
 type Props = {
   column: Column
@@ -39,7 +40,7 @@ export const ColumnContainer = (props: Props) => {
 
   return (
     <>
-      <div className={styles['column-container']}>
+      <div className={styles['column-container']} id={column.id}>
         {/* column title */}
         <div className={styles['column-title']}>
           <div>{column.title}</div>
@@ -61,6 +62,7 @@ export const ColumnContainer = (props: Props) => {
               </IonItem>
             ))}
           </IonReorderGroup>
+          <FloatingActionButton />
         </div>
         {/* column fotter */}
         {column.id === 'stock' && (

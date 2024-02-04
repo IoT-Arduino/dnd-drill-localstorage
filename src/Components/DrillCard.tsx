@@ -21,6 +21,8 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
+import { MAX_TEXT_LENGTH } from '../consts/const'
+
 type Props = {
   drill: Drill
   deleteDrill: (id: Id) => void
@@ -146,9 +148,11 @@ export const DrillCard = ({
                   rows={3}
                   value={editDrillContent}
                   onChange={(e) => setEditDrillContent(e.target.value!)}
+                  maxLength={MAX_TEXT_LENGTH}
                 />
               </Form.Group>
             </Form>
+            <p style={{textAlign:"right", fontSize:"12px"}}>{`${editDrillContent.length}文字/${MAX_TEXT_LENGTH}文字`}</p>
           </Modal.Body>
           <Modal.Footer>
             <Button

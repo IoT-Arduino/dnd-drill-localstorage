@@ -152,7 +152,9 @@ export const DrillCard = ({
                 />
               </Form.Group>
             </Form>
-            <p style={{textAlign:"right", fontSize:"12px"}}>{`${editDrillContent.length}文字/${MAX_TEXT_LENGTH}文字`}</p>
+            <p
+              style={{ textAlign: 'right', fontSize: '12px' }}
+            >{`${editDrillContent.length}文字/${MAX_TEXT_LENGTH}文字`}</p>
           </Modal.Body>
           <Modal.Footer>
             <Button

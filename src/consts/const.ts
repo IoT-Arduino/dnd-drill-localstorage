@@ -1,1 +1,1 @@
-export const MAX_TEXT_LENGTH : number = 60
+export const MAX_TEXT_LENGTH: number = 60

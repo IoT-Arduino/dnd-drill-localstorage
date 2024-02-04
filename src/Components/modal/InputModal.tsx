@@ -85,9 +85,15 @@ const InputModal = (props: Props) => {
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>{textAreaLabel}</Form.Label>
-              <Form.Control as="textarea" rows={3} value={inputText} onChange={(e) => setInputText(e.target.value)} maxLength={MAX_TEXT_LENGTH} />
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                maxLength={MAX_TEXT_LENGTH}
+              />
             </Form.Group>
-            <p style={{textAlign:"right", fontSize:"12px"}}>{`${inputText.length}文字/${MAX_TEXT_LENGTH}文字`}</p>
+            <p style={{ textAlign: 'right', fontSize: '12px' }}>{`${inputText.length}文字/${MAX_TEXT_LENGTH}文字`}</p>
           </Form>
         </Modal.Body>
         <Modal.Footer>

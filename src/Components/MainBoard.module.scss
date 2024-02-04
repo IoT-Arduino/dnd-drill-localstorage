@@ -3,19 +3,12 @@
 .main-wrapper {
   margin: auto;
   display: flex;
-  min-height: 100vh;
-  width: 100%;
   align-items: center;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.context-wrapper {
-  margin: auto;
-  &-sortable {
-    display: flex;
-    gap: 16px;
-  }
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 32px;
+  padding: 16px;
 }
 
 .dialog-textarea {
@@ -23,10 +16,9 @@
 }
 
 @media (max-width: 768px) {
-  .context-wrapper {
-    &-sortable {
-      flex-direction: column;
-      max-width: 380px;
-    }
+  .main-wrapper {
+    flex-direction: column;
+    margin-top: 32px;
+    padding: 8px;
   }
 }

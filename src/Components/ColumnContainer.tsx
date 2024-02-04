@@ -1,36 +1,41 @@
 import { IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
-import { CiCirclePlus } from 'react-icons/ci'
-import { BsSendArrowUp } from 'react-icons/bs'
+// import { CiCirclePlus } from 'react-icons/ci'
+// import { BsSendArrowUp } from 'react-icons/bs'
 
 import { DrillCard } from './DrillCard'
 import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
+import { FloatingActionButton } from './utilParts/FloatingActionButton'
+
+import InputModal from './modal/InputModal'
 
 type Props = {
   column: Column
   drills: Drill[]
-  createDrill: (columnId: Id) => void
+  createDrill: (columnId: Id, content: string) => void
   deleteDrill: (id: Id) => void
   updateDrill: (id: Id, content: string) => void
   updateDrillStatus: (id: Id, status: boolean) => void
   submitButtonEnabled: boolean
-  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
-  setOpenCreateDialog: React.Dispatch<React.SetStateAction<boolean>>
+  // setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
+  // setOpenCreateDialog: React.Dispatch<React.SetStateAction<boolean>>
   updateDrillColumnId: (id: Id, columnId: string) => void
+  submitDrill: (todayMemo: string) => void
 }
 
 export const ColumnContainer = (props: Props) => {
   const {
     column,
     drills,
-    // createDrill,
+    createDrill,
     deleteDrill,
     updateDrill,
     updateDrillStatus,
     submitButtonEnabled,
-    setOpenDialog,
-    setOpenCreateDialog,
-    updateDrillColumnId
+    // setOpenDialog,
+    // setOpenCreateDialog,
+    updateDrillColumnId,
+    submitDrill
   } = props
 
   const handleReorder = (event: CustomEvent<ItemReorderEventDetail>) => {
@@ -39,7 +44,7 @@ export const ColumnContainer = (props: Props) => {
 
   return (
     <>
-      <div className={styles['column-container']}>
+      <div className={styles['column-container']} id={column.id}>
         {/* column title */}
         <div className={styles['column-title']}>
           <div>{column.title}</div>
@@ -48,7 +53,7 @@ export const ColumnContainer = (props: Props) => {
         <div className={styles['column-drill-container']}>
           <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
             {drills.map((drill) => (
-              <IonItem key={drill.id}>
+              <IonItem key={drill.id} className={styles['column-drill-item']} lines="none">
                 <DrillCard
                   drill={drill}
                   columnId={column.id}
@@ -57,25 +62,46 @@ export const ColumnContainer = (props: Props) => {
                   updateDrillStatus={updateDrillStatus}
                   updateDrillColumnId={updateDrillColumnId}
                 />
-                <IonReorder slot="end"></IonReorder>
+                <IonReorder slot="end" style={{ marginLeft: '0' }}></IonReorder>
               </IonItem>
             ))}
           </IonReorderGroup>
+          <FloatingActionButton />
         </div>
         {/* column fotter */}
         {column.id === 'stock' && (
-          <button
-            className={styles['column-footer']}
-            onClick={() => {
-              setOpenCreateDialog(true)
-            }}
-          >
-            <CiCirclePlus />
-            ドリルを追加
-          </button>
+          <InputModal
+            mode="createDrill"
+            modalButtonTitle="ドリルを追加"
+            title="新規ドリル作成"
+            subTitle=""
+            textAreaLabel="ドリルの内容"
+            placeHolder="ドリルの内容を入力してください"
+            button1Label="作成"
+            button2Label="キャンセル"
+            createDrill={createDrill}
+            submitDrill={submitDrill}
+            disabled={false}
+          />
         )}
         {column.id === 'drill' && (
-          <button
+          <>
+            <InputModal
+              mode="submitToday"
+              modalButtonTitle="送信"
+              title="今日のドリルを送信"
+              subTitle="本日もお疲れ様でした"
+              textAreaLabel="今日のメモ"
+              placeHolder="今日のメモを入力してください"
+              button1Label="送信"
+              button2Label="キャンセル"
+              // createDrill={createDrill}
+              disabled={!submitButtonEnabled}
+              createDrill={createDrill}
+              submitDrill={submitDrill}
+            />
+            {/* <IonButton
+            color="success"
             className={styles['column-footer']}
             onClick={() => {
               setOpenDialog(true)
@@ -84,7 +110,8 @@ export const ColumnContainer = (props: Props) => {
           >
             <BsSendArrowUp />
             <span className={styles['column-submit-text']}>送信</span>
-          </button>
+          </IonButton> */}
+          </>
         )}
       </div>
     </>

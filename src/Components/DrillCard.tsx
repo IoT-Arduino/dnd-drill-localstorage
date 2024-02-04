@@ -1,20 +1,26 @@
 import { useState, useRef } from 'react'
 import {
-  IonButton,
+  // IonButton,
   IonIcon,
   IonItem,
   IonItemOption,
   IonItemOptions,
   IonItemSliding,
   IonLabel,
-  IonTextarea,
-  TextareaChangeEventDetail
+  // IonTextarea,
+  // TextareaChangeEventDetail
 } from '@ionic/react'
 import { archive, trash, pencilOutline, checkmarkDoneCircleOutline, arrowUndoCircleOutline } from 'ionicons/icons'
 
-import { Dialog } from './Dialog/Dialog'
+// import { Dialog } from './Dialog/Dialog'
 import { Drill, Id } from './../types/types'
 import styles from './DrillCard.module.scss'
+
+// for edit modal
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
+
 
 type Props = {
   drill: Drill
@@ -34,7 +40,7 @@ export const DrillCard = ({
   updateDrillColumnId
 }: Props) => {
   const [drillComplete, setDrillComplete] = useState<boolean>(false)
-  const [editDrillContent, setEditDrillContent] = useState<string>('')
+  const [editDrillContent, setEditDrillContent] = useState<string>(drill.content)
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false)
 
   const moveToColumnId = columnId === 'stock' ? 'drill' : 'stock'
@@ -126,8 +132,38 @@ export const DrillCard = ({
         </IonItemOptions>
       </IonItemSliding>
 
+
       {/* dialog for edit drill */}
-      <Dialog isOpen={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+      <>
+      <Modal show={openEditDialog} onHide={ () => setOpenEditDialog(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>ドリルの編集</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>ドリルの内容</Form.Label>
+              <Form.Control as="textarea" rows={3} value={editDrillContent} onChange={(e)=> setEditDrillContent(e.target.value!)}/>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={() => {
+            updateDrill(drill.id, editDrillContent)
+            setOpenEditDialog(false)
+          }}>
+            編集確定
+          </Button>
+          <Button variant="secondary" onClick={() => setOpenEditDialog(false)}>
+            キャンセル
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+
+
+      {/* dialog for edit drill */}
+      {/* <Dialog isOpen={openEditDialog} onClose={() => setOpenEditDialog(false)}>
         <header>
           <h2>ドリルの編集</h2>
         </header>
@@ -160,7 +196,7 @@ export const DrillCard = ({
         >
           編集キャンセル
         </IonButton>
-      </Dialog>
+      </Dialog> */}
     </>
   )
 }

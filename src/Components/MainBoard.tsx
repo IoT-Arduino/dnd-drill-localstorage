@@ -24,10 +24,10 @@ interface TextareaChangeEventDetail {
 
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
-  const [drillContent, setDrillContent] = useState<string>('')
+  // const [drillContent, setDrillContent] = useState<string>('')
   const [todayMemo, setTodayMemo] = useState<string>('')
   const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false)
+  // const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false)
 
   // storage related
   const {
@@ -47,8 +47,8 @@ export const MainBoard = () => {
   const drillItemsCheckedFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
   const drillItemsChecked = drillItemsCheckedFiltered.map((item) => ({ id: item.id, content: item.content }))
 
-  const createDrill = async (columnId: Id) => {
-    await createDrillOnStorage(columnId, drillContent)
+  const createDrill = async (columnId: Id, content:string) => {
+    await createDrillOnStorage(columnId, content)
   }
 
   const deleteDrill = async (id: Id) => {
@@ -105,7 +105,7 @@ export const MainBoard = () => {
               updateDrillStatus={updateDrillStatus}
               submitButtonEnabled={submitButtonEnabled}
               setOpenDialog={setOpenDialog}
-              setOpenCreateDialog={setOpenCreateDialog}
+              // setOpenCreateDialog={setOpenCreateDialog}
               updateDrillColumnId={updateDrillColumnId}
             />
           )
@@ -160,7 +160,7 @@ export const MainBoard = () => {
       </Dialog>
 
       {/* create dialog */}
-      <Dialog isOpen={openCreateDialog} onClose={() => setOpenCreateDialog(false)}>
+      {/* <Dialog isOpen={openCreateDialog} onClose={() => setOpenCreateDialog(false)}>
         <header>
           <h2>新規ドリルを作成</h2>
         </header>
@@ -182,7 +182,7 @@ export const MainBoard = () => {
             type="button"
             onClick={() => {
               setOpenCreateDialog(false)
-              createDrill('stock')
+              createDrill('stock', "content")
             }}
           >
             作成
@@ -197,7 +197,7 @@ export const MainBoard = () => {
             キャンセル
           </IonButton>
         </footer>
-      </Dialog>
+      </Dialog> */}
     </>
   )
 }

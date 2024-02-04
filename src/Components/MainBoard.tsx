@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { IonButton, IonHeader, IonTextarea, IonTitle, IonToolbar } from '@ionic/react'
+import { IonHeader, IonTitle, IonToolbar } from '@ionic/react'
 
 import { ColumnContainer } from './ColumnContainer'
-import { Dialog } from './Dialog/Dialog'
+// import { Dialog } from './Dialog/Dialog'
 import styles from './MainBoard.module.scss'
 import { Column, Id } from './../types/types'
 import { useStorage } from '../hooks/useStorage'
@@ -18,16 +18,16 @@ const PresetColumns: Column[] = [
   }
 ]
 
-interface TextareaChangeEventDetail {
-  value?: string | null
-}
+// interface TextareaChangeEventDetail {
+//   value?: string | null
+// }
 
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
-  const [drillContent, setDrillContent] = useState<string>('')
-  const [todayMemo, setTodayMemo] = useState<string>('')
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false)
+  // const [drillContent, setDrillContent] = useState<string>('')
+  // const [todayMemo, setTodayMemo] = useState<string>('')
+  // const [openDialog, setOpenDialog] = useState<boolean>(false)
+  // const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false)
 
   // storage related
   const {
@@ -47,8 +47,8 @@ export const MainBoard = () => {
   const drillItemsCheckedFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
   const drillItemsChecked = drillItemsCheckedFiltered.map((item) => ({ id: item.id, content: item.content }))
 
-  const createDrill = async (columnId: Id) => {
-    await createDrillOnStorage(columnId, drillContent)
+  const createDrill = async (columnId: Id, content: string) => {
+    await createDrillOnStorage(columnId, content)
   }
 
   const deleteDrill = async (id: Id) => {
@@ -67,7 +67,7 @@ export const MainBoard = () => {
     await updateDrillStatusOnStorage(id, status)
   }
 
-  const submitDrill = () => {
+  const submitDrill = (todayMemo: string) => {
     // チェック済みのドリル項目を送信する
     const submitObject = {
       date: today,
@@ -78,9 +78,8 @@ export const MainBoard = () => {
     // 保存機能と差し替え予定
     console.log(submitObject)
 
-    setTodayMemo('')
+    // setTodayMemo('')
     setSubmitButtonEnabled(false)
-
     moveDrillsOnSubmit()
   }
 
@@ -104,16 +103,17 @@ export const MainBoard = () => {
               updateDrill={updateDrill}
               updateDrillStatus={updateDrillStatus}
               submitButtonEnabled={submitButtonEnabled}
-              setOpenDialog={setOpenDialog}
-              setOpenCreateDialog={setOpenCreateDialog}
+              // setOpenDialog={setOpenDialog}
+              // setOpenCreateDialog={setOpenCreateDialog}
               updateDrillColumnId={updateDrillColumnId}
+              submitDrill={submitDrill}
             />
           )
         })}
       </div>
 
       {/* submit dialog */}
-      <Dialog isOpen={openDialog} onClose={() => setOpenDialog(false)}>
+      {/* <Dialog isOpen={openDialog} onClose={() => setOpenDialog(false)}>
         <header>
           <h2>今日のドリルを送信</h2>
         </header>
@@ -157,10 +157,10 @@ export const MainBoard = () => {
             キャンセル
           </IonButton>
         </footer>
-      </Dialog>
+      </Dialog> */}
 
       {/* create dialog */}
-      <Dialog isOpen={openCreateDialog} onClose={() => setOpenCreateDialog(false)}>
+      {/* <Dialog isOpen={openCreateDialog} onClose={() => setOpenCreateDialog(false)}>
         <header>
           <h2>新規ドリルを作成</h2>
         </header>
@@ -182,7 +182,7 @@ export const MainBoard = () => {
             type="button"
             onClick={() => {
               setOpenCreateDialog(false)
-              createDrill('stock')
+              createDrill('stock', "content")
             }}
           >
             作成
@@ -197,7 +197,7 @@ export const MainBoard = () => {
             キャンセル
           </IonButton>
         </footer>
-      </Dialog>
+      </Dialog> */}
     </>
   )
 }

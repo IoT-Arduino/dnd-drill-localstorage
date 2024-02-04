@@ -107,12 +107,12 @@
   position: absolute;
   bottom: 0;
   right: 0;
-//   border: 1px solid #000 ; // 仮FIX
+  //   border: 1px solid #000 ; // 仮FIX
   width: 48px;
   height: 100px;
-//   transition: all 0.3s ease;
-//   transform-origin: bottom right;
-//   transform: scale(0);
+  //   transition: all 0.3s ease;
+  //   transform-origin: bottom right;
+  //   transform: scale(0);
 }
 
 // .fab-wheel {
@@ -131,9 +131,9 @@
   align-items: center;
   justify-content: center;
   color: White;
-//   box-shadow: 0 0.1rem 1rem rgba(24, 154, 65, 0.82);
-//   transition: all 1s ease;
-//   opacity: 1;
+  //   box-shadow: 0 0.1rem 1rem rgba(24, 154, 65, 0.82);
+  //   transition: all 1s ease;
+  //   opacity: 1;
 }
 
 // .fab-wheel .fab-action {
@@ -166,8 +166,7 @@
 // }
 
 @media (min-width: 768px) {
-    .fab-wrapper {
-        display: none;
-    }
+  .fab-wrapper {
+    display: none;
   }
-  
+}

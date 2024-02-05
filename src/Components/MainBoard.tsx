@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { IonHeader, IonLabel, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/react'
+import { IonHeader, IonLabel, IonSegment, IonSegmentButton, IonToolbar } from '@ionic/react'
 
 import { ColumnContainer } from './ColumnContainer'
 import styles from './MainBoard.module.scss'

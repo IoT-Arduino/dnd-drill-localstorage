@@ -30,7 +30,8 @@ export const MainBoard = () => {
     updateDrillStatusOnStorage,
     moveDrillsOnSubmit,
     submitButtonEnabled,
-    setSubmitButtonEnabled
+    setSubmitButtonEnabled,
+    saveTodaysDrill
   } = useStorage()
 
   const dateInfo = new Date()
@@ -65,9 +66,8 @@ export const MainBoard = () => {
       memo: todayMemo,
       drillItemsChecked
     }
-
-    // 保存機能と差し替え予定
-    console.log(submitObject)
+    // console.log(submitObject)
+    saveTodaysDrill(submitObject)
 
     setSubmitButtonEnabled(false)
     moveDrillsOnSubmit()

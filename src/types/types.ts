@@ -11,3 +11,14 @@ export type Drill = {
   content: string
   status: boolean
 }
+
+export type DrillChecked = {
+  id: Id
+  content: string
+}
+
+export type TodaysDrill = {
+  date: string
+  memo: string
+  drillItemsChecked: DrillChecked[]
+}

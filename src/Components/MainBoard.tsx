@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { IonHeader, IonTitle, IonToolbar } from '@ionic/react'
+import { IonHeader, IonLabel, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/react'
 
 import { ColumnContainer } from './ColumnContainer'
 import styles from './MainBoard.module.scss'
@@ -69,7 +69,6 @@ export const MainBoard = () => {
     // 保存機能と差し替え予定
     console.log(submitObject)
 
-    // setTodayMemo('')
     setSubmitButtonEnabled(false)
     moveDrillsOnSubmit()
   }
@@ -78,7 +77,14 @@ export const MainBoard = () => {
     <>
       <IonHeader>
         <IonToolbar color="success" id="titleBar">
-          <IonTitle>My Drills</IonTitle>
+          <IonSegment value="all">
+            <IonSegmentButton value="all">
+              <IonLabel>Mainboard</IonLabel>
+            </IonSegmentButton>
+            <IonSegmentButton value="favorites">
+              <IonLabel>History</IonLabel>
+            </IonSegmentButton>
+          </IonSegment>
         </IonToolbar>
       </IonHeader>
 
@@ -94,8 +100,6 @@ export const MainBoard = () => {
               updateDrill={updateDrill}
               updateDrillStatus={updateDrillStatus}
               submitButtonEnabled={submitButtonEnabled}
-              // setOpenDialog={setOpenDialog}
-              // setOpenCreateDialog={setOpenCreateDialog}
               updateDrillColumnId={updateDrillColumnId}
               submitDrill={submitDrill}
             />

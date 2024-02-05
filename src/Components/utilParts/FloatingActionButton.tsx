@@ -20,8 +20,8 @@ export const FloatingActionButton = () => {
           to="stock"
           className={`${styles['fab-action']} ${styles['fab-action-2']}`}
           smooth={true}
-          duration={600}
-          offset={-50}
+          duration={100}
+          offset={-10}
         >
           <IonIcon icon={chevronDownCircleOutline}></IonIcon>
         </Scroll>

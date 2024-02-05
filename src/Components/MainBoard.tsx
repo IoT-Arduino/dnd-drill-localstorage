@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { IonHeader, IonLabel, IonSegment, IonSegmentButton, IonToolbar } from '@ionic/react'
+import { IonHeader, IonLabel, IonSegment, IonSegmentButton, IonToast, IonToolbar } from '@ionic/react'
 
 import { ColumnContainer } from './ColumnContainer'
 import styles from './MainBoard.module.scss'
@@ -19,7 +19,7 @@ const PresetColumns: Column[] = [
 
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
-
+  const [isToastOpen, setIsTostOpen] = useState(false);
   // storage related
   const {
     drills,
@@ -68,6 +68,7 @@ export const MainBoard = () => {
     }
     // console.log(submitObject)
     saveTodaysDrill(submitObject)
+    setIsTostOpen(true)
 
     setSubmitButtonEnabled(false)
     moveDrillsOnSubmit()
@@ -81,7 +82,7 @@ export const MainBoard = () => {
             <IonSegmentButton value="all">
               <IonLabel>Mainboard</IonLabel>
             </IonSegmentButton>
-            <IonSegmentButton value="favorites">
+            <IonSegmentButton value="history">
               <IonLabel>History</IonLabel>
             </IonSegmentButton>
           </IonSegment>
@@ -106,6 +107,14 @@ export const MainBoard = () => {
           )
         })}
       </div>
+
+      <IonToast
+          color="light"
+          isOpen={isToastOpen}
+          message="今日のドリルを履歴に保存しました"
+          onDidDismiss={() => setIsTostOpen(false)}
+          duration={3000}
+        ></IonToast>
     </>
   )
 }

@@ -1,15 +1,13 @@
 import { useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import Modal from 'react-bootstrap/Modal'
-import { Id } from '../../types/types'
-
 import { IonButton } from '@ionic/react'
-
+import Button from 'react-bootstrap/Button'
 import { CiCirclePlus } from 'react-icons/ci'
 import { BsSendArrowUp } from 'react-icons/bs'
-import styles from './InputModal.module.scss'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
 
+import { Id } from '../../types/types'
+import styles from './InputModal.module.scss'
 import { MAX_TEXT_LENGTH } from '../../consts/const'
 
 type Props = {

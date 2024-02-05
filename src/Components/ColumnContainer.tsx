@@ -87,7 +87,6 @@ export const ColumnContainer = (props: Props) => {
             placeHolder="今日のメモを入力してください"
             button1Label="送信"
             button2Label="キャンセル"
-            // createDrill={createDrill}
             disabled={!submitButtonEnabled}
             createDrill={createDrill}
             submitDrill={submitDrill}

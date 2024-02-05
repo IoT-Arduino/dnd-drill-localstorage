@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { IonHeader, IonTitle, IonToolbar } from '@ionic/react'
 
 import { ColumnContainer } from './ColumnContainer'
-// import { Dialog } from './Dialog/Dialog'
 import styles from './MainBoard.module.scss'
 import { Column, Id } from './../types/types'
 import { useStorage } from '../hooks/useStorage'

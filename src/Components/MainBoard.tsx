@@ -86,7 +86,7 @@ export const MainBoard = () => {
   return (
     <>
       <IonHeader>
-        <IonToolbar color="success">
+        <IonToolbar color="success" id="titleBar">
           <IonTitle>My Drills</IonTitle>
         </IonToolbar>
       </IonHeader>

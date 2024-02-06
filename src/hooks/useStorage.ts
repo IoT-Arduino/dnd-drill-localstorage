@@ -38,11 +38,11 @@ export function useStorage() {
     const newDrill: Drill = {
       id: uniqueId,
       columnId,
-      content: `Drill ${drills.length + 1} ${drillContent}`, // 仮置き
+      content: drillContent, 
       status: false
     }
-    setDrills([...drills, newDrill])
-    return store?.set(DRILL_KEY, [...drills, newDrill])
+    setDrills([newDrill,...drills, ])
+    return store?.set(DRILL_KEY, [newDrill, ...drills])
   }
 
   const deleteDrillOnStorage = async (id: Id) => {

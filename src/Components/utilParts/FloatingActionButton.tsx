@@ -3,7 +3,16 @@ import { IonIcon } from '@ionic/react'
 import { chevronUpCircleOutline, chevronDownCircleOutline } from 'ionicons/icons'
 import { Link as Scroll } from 'react-scroll'
 
-export const FloatingActionButton = () => {
+import { FloatingActionModal } from '../modal/FloatingActionModal'
+import { Id } from '../../types/types'
+
+type Props = {
+  createDrill: (columnId: Id, content: string) => void
+  scrollToBottom: () => void
+}
+
+export const FloatingActionButton = (props:Props) => {
+  const { createDrill,scrollToBottom } = props
   return (
     <div className={styles['fab-wrapper']}>
       <div className={styles['fab-wheel']}>
@@ -25,6 +34,18 @@ export const FloatingActionButton = () => {
         >
           <IonIcon icon={chevronDownCircleOutline}></IonIcon>
         </Scroll>
+        <div className={`${styles['fab-action']} ${styles['fab-action-3']}`}>
+          <FloatingActionModal
+            mode="createDrill"
+            title="新規ドリル作成"
+            textAreaLabel="ドリルの内容"
+            placeHolder="ドリルの内容を入力してください"
+            button1Label="作成"
+            button2Label="キャンセル"
+            createDrill={createDrill}
+            scrollToBottom={scrollToBottom}
+          />
+        </div>
       </div>
     </div>
   )

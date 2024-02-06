@@ -15,14 +15,16 @@
 
 .fab-action {
   position: absolute;
-  background: #96dcb4;
+  background: #fff;
+  // border: 1px solid green;
+  font-size: 42px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: White;
+  color: green;
 }
 
 .fab-action:hover {

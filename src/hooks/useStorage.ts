@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react'
 import { Storage } from '@ionic/storage'
 import { v4 as uuidv4 } from 'uuid'
 
-import { Id, Drill } from './../types/types'
+import { Id, Drill, TodaysDrill } from './../types/types'
+import { SAVE_DRILLS_LENGTH } from '../consts/const'
 
 const DRILL_KEY = 'my-drills'
+const HISTORY_KEY = 'my-history'
 
 export function useStorage() {
   const [store, setStore] = useState<Storage>()
   const [drills, setDrills] = useState<Drill[]>([])
+  const [drillHistory, setDrillHistory] = useState<TodaysDrill[]>([])
   const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false)
 
   useEffect(() => {
@@ -19,9 +22,12 @@ export function useStorage() {
       const store = await newStore.create()
       setStore(store)
 
+      // drill store
       const storedDrills = (await store.get(DRILL_KEY)) || []
-
       setDrills(storedDrills)
+      // history store
+      const historyStore = (await store.get(HISTORY_KEY)) || []
+      setDrillHistory(historyStore)
     }
 
     initStorage()
@@ -87,6 +93,14 @@ export function useStorage() {
     return store?.set(DRILL_KEY, newDrills)
   }
 
+  const saveTodaysDrill = (drill: TodaysDrill) => {
+    const newDrillHistory = [drill, ...drillHistory]
+    if (newDrillHistory.length > SAVE_DRILLS_LENGTH) {
+      newDrillHistory.pop()
+    }
+    return store?.set(HISTORY_KEY, newDrillHistory)
+  }
+
   return {
     drills,
     createDrillOnStorage,
@@ -96,6 +110,8 @@ export function useStorage() {
     updateDrillStatusOnStorage,
     moveDrillsOnSubmit,
     submitButtonEnabled,
-    setSubmitButtonEnabled
+    setSubmitButtonEnabled,
+    saveTodaysDrill,
+    drillHistory
   }
 }

@@ -1,0 +1,32 @@
+@use '../componentStyle/componentStyle.scss' as *;
+
+.history-wrapper {
+  width: 800px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.history-item {
+  border: 1px solid $borderColor;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 6px;
+}
+
+.history-item > p {
+  margin: 4px 0;
+  font-size: bold;
+}
+
+.history-list {
+  margin: 0;
+  padding: 0;
+
+  &-item {
+    list-style: none;
+    padding: 4px 8px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    background-color: #e7f3e7;
+  }
+}

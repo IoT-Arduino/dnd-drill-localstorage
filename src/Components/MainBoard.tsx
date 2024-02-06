@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { IonHeader, IonLabel, IonSegment, IonSegmentButton, IonToolbar } from '@ionic/react'
+import { IonToast } from '@ionic/react'
 
 import { ColumnContainer } from './ColumnContainer'
 import styles from './MainBoard.module.scss'
+import { TabHeader } from './utilParts/TabHeader'
 import { Column, Id } from './../types/types'
 import { useStorage } from '../hooks/useStorage'
 
@@ -19,6 +20,7 @@ const PresetColumns: Column[] = [
 
 export const MainBoard = () => {
   const [columns] = useState<Column[]>(PresetColumns)
+  const [isToastOpen, setIsTostOpen] = useState(false)
 
   // storage related
   const {
@@ -30,7 +32,8 @@ export const MainBoard = () => {
     updateDrillStatusOnStorage,
     moveDrillsOnSubmit,
     submitButtonEnabled,
-    setSubmitButtonEnabled
+    setSubmitButtonEnabled,
+    saveTodaysDrill
   } = useStorage()
 
   const dateInfo = new Date()
@@ -65,9 +68,9 @@ export const MainBoard = () => {
       memo: todayMemo,
       drillItemsChecked
     }
-
-    // 保存機能と差し替え予定
-    console.log(submitObject)
+    // console.log(submitObject)
+    saveTodaysDrill(submitObject)
+    setIsTostOpen(true)
 
     setSubmitButtonEnabled(false)
     moveDrillsOnSubmit()
@@ -75,18 +78,7 @@ export const MainBoard = () => {
 
   return (
     <>
-      <IonHeader>
-        <IonToolbar color="success" id="titleBar">
-          <IonSegment value="all">
-            <IonSegmentButton value="all">
-              <IonLabel>Mainboard</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value="favorites">
-              <IonLabel>History</IonLabel>
-            </IonSegmentButton>
-          </IonSegment>
-        </IonToolbar>
-      </IonHeader>
+      <TabHeader />
 
       <div className={styles['main-wrapper']}>
         {columns.map((col) => {
@@ -106,6 +98,14 @@ export const MainBoard = () => {
           )
         })}
       </div>
+
+      <IonToast
+        color="light"
+        isOpen={isToastOpen}
+        message="今日のドリルを履歴に保存しました"
+        onDidDismiss={() => setIsTostOpen(false)}
+        duration={3000}
+      ></IonToast>
     </>
   )
 }

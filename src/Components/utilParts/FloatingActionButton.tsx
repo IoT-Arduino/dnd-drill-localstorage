@@ -11,7 +11,7 @@ export const FloatingActionButton = () => {
           to="titleBar"
           className={`${styles['fab-action']} ${styles['fab-action-1']}`}
           smooth={true}
-          duration={600}
+          duration={100}
           offset={-50}
         >
           <IonIcon icon={chevronUpCircleOutline}></IonIcon>

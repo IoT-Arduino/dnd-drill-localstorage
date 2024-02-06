@@ -28,7 +28,6 @@ export function useStorage() {
       // history store
       const historyStore = (await store.get(HISTORY_KEY)) || []
       setDrillHistory(historyStore)
-      // await store.set(HISTORY_KEY, history)
     }
 
     initStorage()
@@ -112,6 +111,7 @@ export function useStorage() {
     moveDrillsOnSubmit,
     submitButtonEnabled,
     setSubmitButtonEnabled,
-    saveTodaysDrill
+    saveTodaysDrill,
+    drillHistory
   }
 }

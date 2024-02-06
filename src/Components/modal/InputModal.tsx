@@ -66,7 +66,9 @@ const InputModal = (props: Props) => {
   return (
     <>
       <IonButton color="success" className={styles['modal-button']} onClick={handleShow} disabled={disabled}>
-        {mode === 'createDrill' ? <CiCirclePlus /> : <BsSendArrowUp />}
+        <span className={styles['modal-submit-icon']}>
+          {mode === 'createDrill' ? <CiCirclePlus /> : <BsSendArrowUp />}
+        </span>
         <span className={styles['modal-submit-text']}>{modalButtonTitle}</span>
       </IonButton>
 

@@ -1,7 +1,7 @@
 @use '../componentStyle/componentStyle.scss' as *;
 
 .history-wrapper {
-  width: 800px;
+  width: clamp(300px, 95%, 800px);
   margin: 0 auto;
   padding: 32px;
 }

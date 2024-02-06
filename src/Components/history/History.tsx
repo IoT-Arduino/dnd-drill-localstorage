@@ -1,6 +1,8 @@
 import { useStorage } from '../../hooks/useStorage'
 import { TabHeader } from '../utilParts/TabHeader'
 
+import styles from './History.module.scss'
+
 export const History = () => {
   const { drillHistory } = useStorage()
 
@@ -8,7 +10,7 @@ export const History = () => {
     <>
       <TabHeader />
 
-      <div>
+      <div  className={styles['history-wrapper']}>
         {drillHistory.map((drill,i) => {
           return (
             <div key={i}>

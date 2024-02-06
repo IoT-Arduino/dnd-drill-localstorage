@@ -36,9 +36,21 @@ export const ColumnContainer = (props: Props) => {
     event.detail.complete()
   }
 
+  const columnStyle = () => {
+    if (drills.length > 0) {
+      return 'column-container-none'
+    } else if (column.id === 'stock') {
+      return 'column-container-stock'
+    } else if (column.id === 'drill') {
+      return 'column-container-drill'
+    } else {
+      return 'column-container-none'
+    }
+  }
+
   return (
     <>
-      <div className={styles['column-container']} id={column.id}>
+      <div className={`${styles[columnStyle()]} ${styles['column-container']}`} id={column.id}>
         {/* column title */}
         <div className={styles['column-title']}>
           <div>

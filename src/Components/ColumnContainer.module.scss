@@ -2,11 +2,34 @@
 
 .column-container {
   background-color: $columnBackgroundColor;
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
   width: clamp(350px, 40vw, 500px);
   height: 700px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
+  &-none {
+    background-image: url();
+  }
+  &-drill {
+    background-image: url('../assets/bg-drill.png');
+    animation: animatedBackground 0.6s ease-in-out;
+  }
+  &-stock {
+    background-image: url('../assets/bg-stock.png');
+    animation: animatedBackground 0.6s ease-in-out;
+  }
+}
+
+@keyframes animatedBackground {
+  from {
+    background-size: 1%;
+  }
+  to {
+    background-size: 60%;
+  }
 }
 
 .column-title {

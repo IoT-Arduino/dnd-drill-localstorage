@@ -10,7 +10,7 @@ import { useStorage } from '../hooks/useStorage'
 const PresetColumns: Column[] = [
   {
     id: 'drill',
-    title: '明日のドリル'
+    title: '今日のドリル'
   },
   {
     id: 'stock',

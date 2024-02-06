@@ -3,21 +3,20 @@ import { useNavigate } from 'react-router-dom'
 import styles from './TabHeader.module.scss'
 import { useEffect, useState } from 'react'
 
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'
 
 type ActiveTab = 'main' | 'history'
 
 export const TabHeader = () => {
   const navigate = useNavigate()
-  let location = useLocation();
+  let location = useLocation()
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('main')
 
-  useEffect(()=>{
+  useEffect(() => {
     const currentTab = location.pathname.replace(/^\//, '') === 'history' ? 'history' : 'main'
     setActiveTab(currentTab)
-  },[])
-
+  }, [])
 
   return (
     <div className={styles['tab-header-wrapper']} id="titleBar">

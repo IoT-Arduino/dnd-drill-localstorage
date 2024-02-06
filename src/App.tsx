@@ -15,7 +15,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainBoard />} />
-        <Route path="/history" element={<History/>} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </BrowserRouter>
   )

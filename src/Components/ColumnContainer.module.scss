@@ -21,6 +21,12 @@
   padding: 12px;
   font-weight: bold;
   color: #fff;
+
+  &-icon {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 20px;
+  }
 }
 
 .column-drill-container {
@@ -41,7 +47,8 @@
 
 @media (max-width: 768px) {
   .column-container {
-    width: min(400px, 95vw);
-    height: 500px;
+    width: min(400px, 90vw);
+    // height: 500px;
+    height: clamp(550px, 85dvh, 700px);
   }
 }

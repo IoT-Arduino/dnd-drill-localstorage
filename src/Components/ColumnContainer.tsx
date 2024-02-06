@@ -1,4 +1,5 @@
 import { IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
+import { MdLibraryBooks, MdTaskAlt } from 'react-icons/md'
 
 import { Column, Id, Drill } from './../types/types'
 import styles from './ColumnContainer.module.scss'
@@ -40,7 +41,12 @@ export const ColumnContainer = (props: Props) => {
       <div className={styles['column-container']} id={column.id}>
         {/* column title */}
         <div className={styles['column-title']}>
-          <div>{column.title}</div>
+          <div>
+            <span className={styles['column-title-icon']}>
+              {column.id === 'drill' ? <MdTaskAlt /> : <MdLibraryBooks />}
+            </span>
+            {column.title}
+          </div>
         </div>
         {/* column drill container */}
         <div className={styles['column-drill-container']}>

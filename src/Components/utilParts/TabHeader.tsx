@@ -1,9 +1,8 @@
-import { useNavigate } from 'react-router-dom'
-
+import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './TabHeader.module.scss'
 import { useEffect, useState } from 'react'
-
-import { useLocation } from 'react-router-dom'
+import { GrDomain } from 'react-icons/gr'
+import { SiDatabricks } from 'react-icons/si'
 
 type ActiveTab = 'main' | 'history'
 
@@ -28,6 +27,7 @@ export const TabHeader = () => {
             navigate('/')
           }}
         >
+          <GrDomain style={{ marginRight: '8px' }} />
           メイン
         </p>
         <p
@@ -37,6 +37,7 @@ export const TabHeader = () => {
             navigate('/history')
           }}
         >
+          <SiDatabricks style={{ marginRight: '8px' }} />
           履歴
         </p>
       </div>

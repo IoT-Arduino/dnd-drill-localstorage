@@ -12,7 +12,7 @@ export const History = () => {
       <div className={styles['history-wrapper']}>
         {drillHistory.map((drill, i) => {
           return (
-            <div>
+            <div key={i}>
               <p className={styles['history-date']}>{drill.date}</p>
               <div key={i} className={styles['history-item']}>
                 <p className={styles['history-memo']}>今日のメモ : {drill.memo}</p>

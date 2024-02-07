@@ -128,6 +128,7 @@ export const MainBoard = () => {
         message="今日のドリルを履歴に保存しました"
         onDidDismiss={() => setIsTostOpen(false)}
         duration={3000}
+        className={styles['main-toast']}
       ></IonToast>
     </>
   )

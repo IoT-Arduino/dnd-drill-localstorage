@@ -30,3 +30,14 @@
     background-color: #e7f3e7;
   }
 }
+
+.history-nodata {
+  background-image: url('../../assets/checklist.png');
+  height: 90vh;
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-align: center;
+  margin-top: 32px;
+  font-size: 24px;
+}

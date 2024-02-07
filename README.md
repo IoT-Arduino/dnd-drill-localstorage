@@ -11,7 +11,7 @@
 
 ### PC メイン画面
 
-![PC-main](https://github.com/IoT-Arduino/dnd-drill/assets/45728258/90976238-9c5c-4bac-a172-2502b5a426cd)
+  <img src="https://github.com/IoT-Arduino/dnd-drill/assets/45728258/90976238-9c5c-4bac-a172-2502b5a426cd" width="70%">
 
 ### 利用方法
 
@@ -27,7 +27,9 @@
 #### Check
 
 - 当日練習したもにを、本日実施ドリルとして登録します。実施済み内容は履歴画面で確認できます。
-  ![rireki](https://github.com/IoT-Arduino/dnd-drill/assets/45728258/97b9b978-0c5f-4fc5-b657-9c26188e2783)
+- 履歴は過去7回分参照可能です。
+
+  <img src="https://github.com/IoT-Arduino/dnd-drill/assets/45728258/97b9b978-0c5f-4fc5-b657-9c26188e2783" width="40%">
 
 #### Action
 

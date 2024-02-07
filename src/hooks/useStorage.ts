@@ -64,8 +64,10 @@ export function useStorage() {
   const updateDrillColumnIdOnStorage = (id: Id, columnId: string) => {
     const newDrills = drills.map((drill) => {
       if (drill.id !== id) return drill
-      return { ...drill, columnId }
+      return { ...drill, columnId , status : false }
     })
+    const isAnyDrillActive = newDrills.some((drill) => drill.status)
+    setSubmitButtonEnabled(isAnyDrillActive)
     setDrills(newDrills)
     return store?.set(DRILL_KEY, newDrills)
   }

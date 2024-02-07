@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
 import { MdLibraryBooks, MdTaskAlt } from 'react-icons/md'
 
@@ -31,6 +32,14 @@ export const ColumnContainer = (props: Props) => {
     updateDrillColumnId,
     submitDrill
   } = props
+
+  const footerRef = useRef<HTMLElement | null>(null);
+  const scrollToBottom = () => {
+    footerRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
+  };
 
   const handleReorder = (event: CustomEvent<ItemReorderEventDetail>) => {
     event.detail.complete()
@@ -77,7 +86,7 @@ export const ColumnContainer = (props: Props) => {
               </IonItem>
             ))}
           </IonReorderGroup>
-          <FloatingActionButton />
+          <FloatingActionButton createDrill={createDrill} scrollToBottom={scrollToBottom} />
         </div>
         {/* column fotter */}
         {column.id === 'stock' && (
@@ -110,6 +119,7 @@ export const ColumnContainer = (props: Props) => {
             submitDrill={submitDrill}
           />
         )}
+        <div ref={footerRef as React.LegacyRef<HTMLDivElement>} style={{visibility:"hidden"}}></div>
       </div>
     </>
   )

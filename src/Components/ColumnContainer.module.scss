@@ -71,7 +71,6 @@
 @media (max-width: 768px) {
   .column-container {
     width: min(400px, 90vw);
-    // height: 500px;
-    height: clamp(550px, 85dvh, 700px);
+    height: clamp(550px, 80vh, 700px);
   }
 }

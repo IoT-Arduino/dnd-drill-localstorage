@@ -16,7 +16,6 @@
 .fab-action {
   position: absolute;
   background: #fff;
-  // border: 1px solid green;
   font-size: 42px;
   width: 48px;
   height: 48px;
@@ -25,20 +24,27 @@
   align-items: center;
   justify-content: center;
   color: green;
+  box-shadow: 0px 2px 10px -2px rgba(0, 0, 0, 0.3);
 }
 
 .fab-action:hover {
   background-color: #c5d116;
 }
 
-.fab-wheel .fab-action-1 {
+.fab-action-1 {
   right: 0;
   top: 0;
 }
 
-.fab-wheel .fab-action-2 {
+.fab-action-2 {
   right: 0;
   bottom: 0;
+}
+
+.fab-action-3 {
+  right: 0;
+  top: -100px;
+  color: yellowgreen;
 }
 
 @media (min-width: 768px) {

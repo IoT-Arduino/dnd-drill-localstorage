@@ -1,42 +1,26 @@
 import { useState } from 'react'
-import { IonButton } from '@ionic/react'
 import Button from 'react-bootstrap/Button'
-import { CiCirclePlus } from 'react-icons/ci'
-import { BsSendArrowUp } from 'react-icons/bs'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import { IonIcon } from '@ionic/react'
+import { addCircleOutline } from 'ionicons/icons'
 
 import { Id } from '../../types/types'
-import styles from './InputModal.module.scss'
 import { MAX_TEXT_LENGTH } from '../../consts/const'
 
 type Props = {
   mode: string
-  modalButtonTitle: string
   title: string
-  subTitle?: string
   textAreaLabel: string
   placeHolder?: string
   button1Label: string
   button2Label: string
   createDrill: (columnId: Id, content: string) => void
-  submitDrill: (todayMemo: string) => void
-  disabled: boolean
+  scrollToBottom: () => void
 }
 
-const InputModal = (props: Props) => {
-  const {
-    mode,
-    modalButtonTitle,
-    title,
-    subTitle,
-    textAreaLabel,
-    button1Label,
-    button2Label,
-    createDrill,
-    submitDrill,
-    disabled
-  } = props
+export const FloatingActionModal = (props: Props) => {
+  const { title, textAreaLabel, button1Label, button2Label, createDrill, scrollToBottom } = props
 
   const [show, setShow] = useState(false)
   const [inputText, setInputText] = useState('')
@@ -45,17 +29,10 @@ const InputModal = (props: Props) => {
   const handleShow = () => setShow(true)
 
   const submitModalForm = () => {
-    if (mode === 'createDrill') {
-      createDrill('stock', inputText)
-      setInputText('')
-      setShow(false)
-    } else if (mode === 'submitToday') {
-      submitDrill(inputText)
-      setInputText('')
-      setShow(false)
-    } else {
-      return
-    }
+    createDrill('stock', inputText)
+    setInputText('')
+    setShow(false)
+    scrollToBottom()
   }
 
   const cancelSubmit = () => {
@@ -65,20 +42,13 @@ const InputModal = (props: Props) => {
 
   return (
     <>
-      <IonButton color="success" className={styles['modal-button']} onClick={handleShow} disabled={disabled}>
-        <span className={styles['modal-submit-icon']}>
-          {mode === 'createDrill' ? <CiCirclePlus /> : <BsSendArrowUp />}
-        </span>
-        <span className={styles['modal-submit-text']}>{modalButtonTitle}</span>
-      </IonButton>
+      <IonIcon icon={addCircleOutline} onClick={handleShow}></IonIcon>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {subTitle && <p>{subTitle}</p>}
-          <p></p>
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>{textAreaLabel}</Form.Label>
@@ -105,5 +75,3 @@ const InputModal = (props: Props) => {
     </>
   )
 }
-
-export default InputModal

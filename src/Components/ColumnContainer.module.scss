@@ -2,17 +2,39 @@
 
 .column-container {
   background-color: $columnBackgroundColor;
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
   width: clamp(350px, 40vw, 500px);
   height: 700px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
+  &-none {
+    background-image: url();
+  }
+  &-drill {
+    background-image: url('../assets/bg-drill.png');
+    animation: animatedBackground 0.6s ease-in-out;
+  }
+  &-stock {
+    background-image: url('../assets/bg-stock.png');
+    animation: animatedBackground 0.6s ease-in-out;
+  }
+}
+
+@keyframes animatedBackground {
+  from {
+    background-size: 1%;
+  }
+  to {
+    background-size: 60%;
+  }
 }
 
 .column-title {
   background-color: $columnTitleColor;
   height: 60px;
-  // width: 100%;
   cursor: grab;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
@@ -22,6 +44,12 @@
   padding: 12px;
   font-weight: bold;
   color: #fff;
+
+  &-icon {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 20px;
+  }
 }
 
 .column-drill-container {
@@ -40,27 +68,9 @@
   padding: 0;
 }
 
-// .column-footer {
-//   display: flex;
-//   gap: 2;
-//   align-items: center;
-//   border: 2px solid $columnBackgroundColor;
-//   border-radius: 6px;
-//   padding: 16px;
-//   &:hover {
-//     background-color: $mainBackgroundColor;
-//     opacity: 0.5;
-//   }
-// }
-
-// .column-submit-text {
-//   display: inline-block;
-//   margin-left: 8px;
-// }
-
 @media (max-width: 768px) {
   .column-container {
-    width: min(400px, 95vw);
-    height: 500px;
+    width: min(400px, 90vw);
+    height: clamp(550px, 80vh, 700px);
   }
 }

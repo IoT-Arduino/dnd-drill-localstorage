@@ -1,26 +1,13 @@
 import { useState, useRef } from 'react'
-import {
-  // IonButton,
-  IonIcon,
-  IonItem,
-  IonItemOption,
-  IonItemOptions,
-  IonItemSliding,
-  IonLabel
-  // IonTextarea,
-  // TextareaChangeEventDetail
-} from '@ionic/react'
+import { IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel } from '@ionic/react'
 import { archive, trash, pencilOutline, checkmarkDoneCircleOutline, arrowUndoCircleOutline } from 'ionicons/icons'
-
-// import { Dialog } from './Dialog/Dialog'
-import { Drill, Id } from './../types/types'
-import styles from './DrillCard.module.scss'
-
 // for edit modal
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
+import { Drill, Id } from './../types/types'
+import styles from './DrillCard.module.scss'
 import { MAX_TEXT_LENGTH } from '../consts/const'
 
 type Props = {
@@ -63,7 +50,7 @@ export const DrillCard = ({
               }}
             >
               <IonIcon slot="start" icon={pencilOutline}></IonIcon>
-              Edit
+              編集
             </IonItemOption>
             <IonItemOption
               color="danger"
@@ -73,7 +60,7 @@ export const DrillCard = ({
               }}
             >
               <IonIcon slot="start" icon={trash}></IonIcon>
-              Delete
+              削除
             </IonItemOption>
           </IonItemOptions>
         ) : null}
@@ -134,80 +121,42 @@ export const DrillCard = ({
       </IonItemSliding>
 
       {/* dialog for edit drill */}
-      <>
-        <Modal show={openEditDialog} onHide={() => setOpenEditDialog(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>ドリルの編集</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Label>ドリルの内容</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={editDrillContent}
-                  onChange={(e) => setEditDrillContent(e.target.value!)}
-                  maxLength={MAX_TEXT_LENGTH}
-                />
-              </Form.Group>
-            </Form>
-            <p
-              style={{ textAlign: 'right', fontSize: '12px' }}
-            >{`${editDrillContent.length}文字/${MAX_TEXT_LENGTH}文字`}</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="success"
-              onClick={() => {
-                updateDrill(drill.id, editDrillContent)
-                setOpenEditDialog(false)
-              }}
-            >
-              編集確定
-            </Button>
-            <Button variant="secondary" onClick={() => setOpenEditDialog(false)}>
-              キャンセル
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-
-      {/* dialog for edit drill */}
-      {/* <Dialog isOpen={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <header>
-          <h2>ドリルの編集</h2>
-        </header>
-        <div className={styles['dialog-textarea']}>
-          <IonTextarea
-            label="ドリルの内容"
-            placeholder="ドリルの内容入力してください"
-            labelPlacement="floating"
-            fill="outline"
-            value={drill.content}
-            onIonChange={(e: CustomEvent<TextareaChangeEventDetail>) => setEditDrillContent(e.detail.value!)}
-          ></IonTextarea>
-        </div>
-        <IonButton
-          color="success"
-          type="button"
-          onClick={() => {
-            updateDrill(drill.id, editDrillContent)
-            setOpenEditDialog(false)
-          }}
-        >
-          編集確定
-        </IonButton>
-        <IonButton
-          color="success"
-          type="button"
-          onClick={() => {
-            setOpenEditDialog(false)
-          }}
-        >
-          編集キャンセル
-        </IonButton>
-      </Dialog> */}
+      <Modal show={openEditDialog} onHide={() => setOpenEditDialog(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>ドリルの編集</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>ドリルの内容</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={editDrillContent}
+                onChange={(e) => setEditDrillContent(e.target.value!)}
+                maxLength={MAX_TEXT_LENGTH}
+              />
+            </Form.Group>
+          </Form>
+          <p
+            style={{ textAlign: 'right', fontSize: '12px' }}
+          >{`${editDrillContent.length}文字/${MAX_TEXT_LENGTH}文字`}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="success"
+            onClick={() => {
+              updateDrill(drill.id, editDrillContent)
+              setOpenEditDialog(false)
+            }}
+          >
+            編集確定
+          </Button>
+          <Button variant="secondary" onClick={() => setOpenEditDialog(false)}>
+            キャンセル
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

@@ -1,7 +1,7 @@
 @use './componentStyle/componentStyle.scss' as *;
 
 .main-wrapper {
-  margin: auto;
+  margin-top: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,16 +9,46 @@
   margin-right: auto;
   gap: 32px;
   padding: 16px;
+  overflow: hidden;
 }
 
 .dialog-textarea {
   margin-bottom: 16px;
 }
 
+.main-toast {
+  height: 90vh;
+  width: 350px;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+.small-warning {
+  color: red;
+  width: 100%;
+  text-align: center;
+  line-height: 50px;
+  font-weight: bold;
+  height: 50px;
+  position: absolute;
+  &-icon {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 20px;
+  }
+}
+
+// desktop 必ず、Columnは横並び。
+.main-wrapper.desktop {
+  min-width: 769px;
+}
+
 @media (max-width: 768px) {
-  .main-wrapper {
+  .main-wrapper:not(.desktop) {
     flex-direction: column;
-    margin-top: 32px;
     padding: 8px;
   }
 }

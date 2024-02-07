@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { IonToast } from '@ionic/react'
+import { isDesktop } from 'react-device-detect'
+import { IoAlertCircleOutline } from 'react-icons/io5'
 
 import { ColumnContainer } from './ColumnContainer'
 import styles from './MainBoard.module.scss'
@@ -35,6 +37,18 @@ export const MainBoard = () => {
     setSubmitButtonEnabled,
     saveTodaysDrill
   } = useStorage()
+
+  const [widthSmall, setWidthSmall] = useState(false)
+  useLayoutEffect(() => {
+    const updateSize = (): void => {
+      setWidthSmall(window.innerWidth < 768)
+    }
+
+    window.addEventListener('resize', updateSize)
+    updateSize()
+
+    return () => window.removeEventListener('resize', updateSize)
+  }, [])
 
   const dateInfo = new Date()
   const today = `${dateInfo.getFullYear()}年${dateInfo.getMonth() + 1}月${dateInfo.getDate()}日`
@@ -79,8 +93,17 @@ export const MainBoard = () => {
   return (
     <>
       <TabHeader />
+      {/* PC で画面幅が小さいときのwarning */}
+      {widthSmall && isDesktop && (
+        <p className={styles['small-warning']}>
+          <span className={styles['small-warning-icon']}>
+            <IoAlertCircleOutline />
+          </span>
+          画面幅を広げてください
+        </p>
+      )}
 
-      <div className={styles['main-wrapper']}>
+      <div className={isDesktop ? `${styles['main-wrapper']} ${styles['desktop']}` : styles['main-wrapper']}>
         {columns.map((col) => {
           return (
             <ColumnContainer
@@ -105,6 +128,7 @@ export const MainBoard = () => {
         message="今日のドリルを履歴に保存しました"
         onDidDismiss={() => setIsTostOpen(false)}
         duration={3000}
+        className={styles['main-toast']}
       ></IonToast>
     </>
   )

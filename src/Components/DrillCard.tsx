@@ -50,7 +50,7 @@ export const DrillCard = ({
               }}
             >
               <IonIcon slot="start" icon={pencilOutline}></IonIcon>
-              Edit
+              編集
             </IonItemOption>
             <IonItemOption
               color="danger"
@@ -60,7 +60,7 @@ export const DrillCard = ({
               }}
             >
               <IonIcon slot="start" icon={trash}></IonIcon>
-              Delete
+              削除
             </IonItemOption>
           </IonItemOptions>
         ) : null}

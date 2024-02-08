@@ -6,7 +6,7 @@ import { BsSendArrowUp } from 'react-icons/bs'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
-import { Id } from '../../types/types'
+import { Id, DrillContent } from '../../types/types'
 import styles from './InputModal.module.scss'
 import { MAX_TEXT_LENGTH } from '../../consts/const'
 
@@ -15,11 +15,12 @@ type Props = {
   modalButtonTitle: string
   title: string
   subTitle?: string
+  urlInputLavel?: string
   textAreaLabel: string
   placeHolder?: string
   button1Label: string
   button2Label: string
-  createDrill: (columnId: Id, content: string) => void
+  createDrill: (columnId: Id, content: DrillContent) => void
   submitDrill: (todayMemo: string) => void
   disabled: boolean
 }
@@ -30,6 +31,7 @@ const InputModal = (props: Props) => {
     modalButtonTitle,
     title,
     subTitle,
+    urlInputLavel,
     textAreaLabel,
     button1Label,
     button2Label,
@@ -40,13 +42,28 @@ const InputModal = (props: Props) => {
 
   const [show, setShow] = useState(false)
   const [inputText, setInputText] = useState('')
+  const [inputUrl, setInputUrl] = useState('')
+
+  const [validated, setValidated] = useState(false)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-  const submitModalForm = () => {
+  const submitModalForm = (e: any) => {
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    setValidated(true)
+
+    const inputContent: DrillContent = {
+      text: inputText,
+      url: inputUrl
+    }
     if (mode === 'createDrill') {
-      createDrill('stock', inputText)
+      createDrill('stock', inputContent)
+      setInputUrl('')
       setInputText('')
       setShow(false)
     } else if (mode === 'submitToday') {
@@ -59,6 +76,7 @@ const InputModal = (props: Props) => {
   }
 
   const cancelSubmit = () => {
+    setInputUrl('')
     setInputText('')
     setShow(false)
   }
@@ -78,11 +96,27 @@ const InputModal = (props: Props) => {
         </Modal.Header>
         <Modal.Body>
           {subTitle && <p>{subTitle}</p>}
-          <p></p>
-          <Form>
+
+          {/* Form section */}
+          <Form noValidate validated={validated}>
+            {mode === 'createDrill' && (
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Label>{urlInputLavel}</Form.Label>
+                <Form.Control
+                  type="url"
+                  pattern="https?://.*"
+                  value={inputUrl}
+                  onChange={(e) => setInputUrl(e.target.value)}
+                  isInvalid={!/^https?:\/\/.*$/.test(inputUrl) && inputUrl.length > 0}
+                />
+                <Form.Control.Feedback type="invalid">正しいURLを入力してください。</Form.Control.Feedback>
+              </Form.Group>
+            )}
+
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>{textAreaLabel}</Form.Label>
               <Form.Control
+                required
                 as="textarea"
                 rows={3}
                 value={inputText}
@@ -90,11 +124,13 @@ const InputModal = (props: Props) => {
                 maxLength={MAX_TEXT_LENGTH}
               />
             </Form.Group>
-            <p style={{ textAlign: 'right', fontSize: '12px' }}>{`${inputText.length}文字/${MAX_TEXT_LENGTH}文字`}</p>
+            <p style={{ textAlign: 'right', fontSize: '12px', color: inputText.length >= 60 ? 'red' : 'inherit' }}>
+              {`${inputText.length}文字/${MAX_TEXT_LENGTH}文字`}
+            </p>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={submitModalForm}>
+          <Button variant="success" onClick={submitModalForm} disabled={!inputText.length}>
             {button1Label}
           </Button>
           <Button variant="secondary" onClick={cancelSubmit}>

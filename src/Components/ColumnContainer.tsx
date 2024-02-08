@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { IonItem, IonReorder, IonReorderGroup, ItemReorderEventDetail } from '@ionic/react'
 import { MdLibraryBooks, MdTaskAlt } from 'react-icons/md'
 
-import { Column, Id, Drill } from './../types/types'
+import { Column, Id, Drill, DrillContent } from './../types/types'
 import styles from './ColumnContainer.module.scss'
 import { DrillCard } from './DrillCard'
 import InputModal from './modal/InputModal'
@@ -11,9 +11,9 @@ import { FloatingActionButton } from './utilParts/FloatingActionButton'
 type Props = {
   column: Column
   drills: Drill[]
-  createDrill: (columnId: Id, content: string) => void
+  createDrill: (columnId: Id, content: DrillContent) => void
   deleteDrill: (id: Id) => void
-  updateDrill: (id: Id, content: string) => void
+  updateDrill: (id: Id, content: DrillContent) => void
   updateDrillStatus: (id: Id, status: boolean) => void
   submitButtonEnabled: boolean
   updateDrillColumnId: (id: Id, columnId: string) => void
@@ -95,7 +95,8 @@ export const ColumnContainer = (props: Props) => {
             modalButtonTitle="ドリルを追加"
             title="新規ドリル作成"
             subTitle=""
-            textAreaLabel="ドリルの内容"
+            urlInputLavel="urlアドレス(任意)"
+            textAreaLabel="ドリルの内容(必須)"
             placeHolder="ドリルの内容を入力してください"
             button1Label="作成"
             button2Label="キャンセル"

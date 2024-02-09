@@ -10,7 +10,7 @@ export const History = () => {
     <>
       <TabHeader />
       <div className={styles['history-wrapper']}>
-        {drillHistory.length &&
+        {drillHistory.length > 0 &&
           drillHistory.map((drill, i) => {
             return (
               <div key={i}>
@@ -22,7 +22,7 @@ export const History = () => {
                     {drill.drillItemsChecked.map((item) => {
                       return (
                         <li key={item.id} className={styles['history-list-item']}>
-                          {item.content}
+                          {item.content.text}
                         </li>
                       )
                     })}

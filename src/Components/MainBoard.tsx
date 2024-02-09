@@ -6,7 +6,7 @@ import { IoAlertCircleOutline } from 'react-icons/io5'
 import { ColumnContainer } from './ColumnContainer'
 import styles from './MainBoard.module.scss'
 import { TabHeader } from './utilParts/TabHeader'
-import { Column, Id } from './../types/types'
+import { Column, DrillContent, Id } from './../types/types'
 import { useStorage } from '../hooks/useStorage'
 
 const PresetColumns: Column[] = [
@@ -55,7 +55,7 @@ export const MainBoard = () => {
   const drillItemsCheckedFiltered = drills.filter((drill) => drill.columnId === 'drill' && drill.status === true)
   const drillItemsChecked = drillItemsCheckedFiltered.map((item) => ({ id: item.id, content: item.content }))
 
-  const createDrill = async (columnId: Id, content: string) => {
+  const createDrill = async (columnId: Id, content: DrillContent) => {
     await createDrillOnStorage(columnId, content)
   }
 
@@ -63,7 +63,7 @@ export const MainBoard = () => {
     await deleteDrillOnStorage(id)
   }
 
-  const updateDrill = async (id: Id, content: string) => {
+  const updateDrill = async (id: Id, content: DrillContent) => {
     await updateDrillOnStorage(id, content)
   }
 

@@ -5,10 +5,10 @@ import { Link as Scroll } from 'react-scroll'
 import { isDesktop } from 'react-device-detect'
 
 import { FloatingActionModal } from '../modal/FloatingActionModal'
-import { Id } from '../../types/types'
+import { Id, DrillContent } from '../../types/types'
 
 type Props = {
-  createDrill: (columnId: Id, content: string) => void
+  createDrill: (columnId: Id, content: DrillContent) => void
   scrollToBottom: () => void
 }
 
@@ -41,6 +41,7 @@ export const FloatingActionButton = (props: Props) => {
             <FloatingActionModal
               mode="createDrill"
               title="新規ドリル作成"
+              urlInputLavel="url"
               textAreaLabel="ドリルの内容"
               placeHolder="ドリルの内容を入力してください"
               button1Label="作成"

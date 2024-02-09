@@ -5,16 +5,21 @@ export type Column = {
   title: string
 }
 
+export type DrillContent = {
+  text: string
+  url?: string
+}
+
 export type Drill = {
   id: Id
   columnId: Id
-  content: string
+  content: DrillContent
   status: boolean
 }
 
 export type DrillChecked = {
   id: Id
-  content: string
+  content: DrillContent
 }
 
 export type TodaysDrill = {

@@ -5,8 +5,8 @@ import '@ionic/react/css/normalize.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import './App.css'
-import { MainBoard } from './Components/MainBoard'
-import { History } from './Components/history/History'
+import { MainBoard } from './components/MainBoard'
+import { History } from './components/history/History'
 
 setupIonicReact()
 

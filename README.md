@@ -45,7 +45,7 @@
 
 #### UI
 
-- Slider：Ionic React t（ion-item-sliding）
+- Slider：Ionic React（ion-item-sliding）
 - Drag&Drop : Ionic React (ion-reorder)
 - Modal:React bootstrap
 - CSSは、module.scss で記述。

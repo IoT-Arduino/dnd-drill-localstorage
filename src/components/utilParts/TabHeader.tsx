@@ -8,7 +8,7 @@ type ActiveTab = 'main' | 'history'
 
 export const TabHeader = () => {
   const navigate = useNavigate()
-  let location = useLocation()
+  const location = useLocation()
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('main')
 

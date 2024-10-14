@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Storage } from '@ionic/storage'
 import { v4 as uuidv4 } from 'uuid'
 
-import { Id, Drill, TodaysDrill } from './../types/types'
+import { Id, Drill, TodaysDrill, DrillContent } from './../types/types'
 import { SAVE_DRILLS_LENGTH } from '../consts/const'
 
 const DRILL_KEY = 'my-drills'
@@ -33,7 +33,7 @@ export function useStorage() {
     initStorage()
   }, [])
 
-  const createDrillOnStorage = async (columnId: Id, drillContent: string) => {
+  const createDrillOnStorage = async (columnId: Id, drillContent: DrillContent) => {
     const uniqueId = uuidv4()
     const newDrill: Drill = {
       id: uniqueId,
@@ -51,7 +51,7 @@ export function useStorage() {
     return store?.set(DRILL_KEY, newDrills)
   }
 
-  const updateDrillOnStorage = async (id: Id, content: string) => {
+  const updateDrillOnStorage = async (id: Id, content: DrillContent) => {
     const newDrills = drills.map((drill) => {
       if (drill.id !== id) return drill
       return { ...drill, content }
